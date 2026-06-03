@@ -1,0 +1,95 @@
+import {
+  BadgeCheck,
+  BarChart3,
+  BriefcaseBusiness,
+  Building2,
+  ClipboardCheck,
+  Gavel,
+  GraduationCap,
+  Handshake,
+  Landmark,
+  RadioTower,
+  ShieldCheck,
+  Target,
+  Truck,
+  UsersRound,
+} from 'lucide-react'
+import type { ExpertiseItem, IconCard, PortfolioCard } from '../types/content'
+
+export const navItems = [
+  { label: 'About', href: '#about' },
+  { label: 'Services', href: '#services' },
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Contact', href: '#contact' },
+] as const
+
+export const proofPoints = [
+  { value: '20+', label: 'Years of applied expertise' },
+  { value: '360°', label: 'Consulting and delivery perspective' },
+  { value: 'Global', label: 'Technology and partner network' },
+] as const
+
+export const expertiseItems: ExpertiseItem[] = [
+  {
+    icon: BadgeCheck,
+    title: 'Security and safety requirements',
+    body: 'Extensive experience across governmental, defense and industrial environments with complex technical and regulatory demands.',
+  },
+  {
+    icon: Handshake,
+    title: 'Strategic equipment partnerships',
+    body: 'Close collaboration with leading manufacturers enabling reliable project execution, supply and long-term support.',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Training and after-sales support',
+    body: 'In-depth operator training and exceptional after-sales service that keeps solutions running at every level.',
+  },
+]
+
+export const mediationAreas: IconCard[] = [
+  { icon: BarChart3, title: 'Market entry and analysis' },
+  { icon: UsersRound, title: 'Business origination' },
+  { icon: Truck, title: 'Product supply and placement' },
+  { icon: ClipboardCheck, title: 'Turn-key projects' },
+]
+
+export const consultingAreas: IconCard[] = [
+  { icon: Target, title: 'Sales and marketing strategy' },
+  { icon: Gavel, title: 'National and international legal frameworks' },
+  { icon: Building2, title: 'Corporate transformation' },
+  { icon: Landmark, title: 'Finance, controlling, auditing and asset management' },
+]
+
+export const portfolioCards: PortfolioCard[] = [
+  {
+    icon: ShieldCheck,
+    title: 'Security & safety',
+    label: 'Risk · Defense · Infrastructure',
+    body: 'Engineering support and advisory for governmental authorities, the defense industry and organizations operating in sensitive or technically demanding environments.',
+    type: 'security',
+  },
+  {
+    icon: RadioTower,
+    title: 'Communication industries',
+    label: 'Connectivity · Systems · Mediation',
+    body: 'Consulting and mediation for communication service providers, regulatory authorities, manufacturers and international organizations seeking product selection, placement and project implementation.',
+    type: 'communication',
+  },
+  {
+    icon: BriefcaseBusiness,
+    title: 'Finance & transformation',
+    label: 'Controlling · Auditing · Advisory',
+    body: 'Finance, controlling, auditing and asset management advisory for companies navigating growth, restructuring, legal frameworks and international compliance.',
+    type: 'finance',
+  },
+]
+
+export const operatingSteps = [
+  { title: 'Understand', body: 'Client requirements, regulatory environments, market signals and technical constraints are mapped before any solution is proposed.' },
+  { title: 'Connect', body: 'The right manufacturers, legal specialists, technical engineers and commercial partners are aligned and mobilized around the project.' },
+  { title: 'Deliver', body: 'Turnkey implementation, hands-on operator training and after-sales service ensure the solution stays operational at every level.' },
+] as const
+
+export const MAP_URL =
+  'https://www.google.com/maps/search/?api=1&query=Lamena%20FZE%20Jebel%20Ali%20Free%20Zone%20Dubai%20UAE'

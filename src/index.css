@@ -1,58 +1,102 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #fbfaff;
+  /* Base palette */
+  --bg: #faf9fe;
   --surface: #ffffff;
-  --surface-soft: #f2effa;
-  --surface-strong: #ece6f5;
-  --ink: #17151d;
-  --muted: #676173;
-  --muted-strong: #4a4455;
-  --purple: #6f4d92;
+  --surface-soft: #f1edf8;
+  --surface-strong: #e8e2f2;
+  --ink: #11101a;
+  --muted: #6a6278;
+  --muted-strong: #47404f;
+
+  /* Purple scale */
+  --purple: #7252a0;
   --purple-deep: #4d1fa2;
+  --purple-mid: #5e33b4;
   --purple-soft: #a887c8;
-  --line: rgba(23, 21, 29, 0.1);
-  --line-strong: rgba(111, 77, 146, 0.26);
-  --silver: #d8d5df;
+  --purple-pale: #ede8f8;
+
+  /* Dark hero */
+  --hero-bg: #0d0b14;
+  --hero-surface: rgba(255, 255, 255, 0.05);
+  --hero-border: rgba(255, 255, 255, 0.09);
+  --hero-text: #f0eeff;
+  --hero-muted: rgba(240, 238, 255, 0.52);
+
+  /* Lines + effects */
+  --line: rgba(17, 16, 26, 0.09);
+  --line-strong: rgba(111, 77, 146, 0.22);
+  --silver: #d5d1dd;
   --cyan: #75d8df;
-  --shadow: 0 24px 70px rgba(33, 25, 48, 0.13);
-  --shadow-soft: 0 14px 40px rgba(33, 25, 48, 0.08);
-  --radius: 8px;
+  --shadow: 0 24px 64px rgba(26, 18, 44, 0.12);
+  --shadow-soft: 0 8px 32px rgba(26, 18, 44, 0.07);
+  --shadow-card: 0 2px 12px rgba(26, 18, 44, 0.06), 0 8px 32px rgba(26, 18, 44, 0.07);
+
+  /* Layout */
+  --radius: 10px;
+  --radius-lg: 14px;
   --max: 1180px;
+
+  /* Typography */
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
   color: var(--ink);
   background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-* {
-  box-sizing: border-box;
-}
-
+/* ─── Cross-platform baseline ────────────────────────── */
 html {
+  /* Prevent iOS font-size inflation */
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  /* Reserve scrollbar space on Windows (no layout shift) */
+  scrollbar-gutter: stable;
   scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   min-width: 320px;
   margin: 0;
-  background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+  background: var(--bg);
+  /* Prevent horizontal overscroll (rubber-band swipe) */
+  overscroll-behavior-x: none;
 }
 
-body,
+/* ─── Interactive elements ───────────────────────────── */
 button,
-input,
-textarea {
+a,
+label,
+[role="button"] {
+  /* Remove 300ms tap delay on mobile */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
   font: inherit;
 }
 
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
+input,
+textarea,
+select {
+  font: inherit;
+  /* Minimum 16px prevents iOS auto-zoom on focus */
+  font-size: max(16px, 1em);
 }
 
 a {
@@ -60,15 +104,15 @@ a {
   text-decoration: none;
 }
 
-img {
+img,
+picture,
+svg,
+video {
   display: block;
   max-width: 100%;
 }
 
-button {
-  border: 0;
-}
-
+/* ─── Text selection ─────────────────────────────────── */
 ::selection {
   color: white;
   background: var(--purple);
@@ -76,4 +120,25 @@ button {
 
 #root {
   min-height: 100svh;
+  /* Isolate stacking context */
+  isolation: isolate;
+}
+
+/* ─── Windows scrollbar styling ──────────────────────── */
+@supports (scrollbar-width: thin) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-strong) transparent;
+  }
+}
+
+/* ─── Focus visible (keyboard nav) ──────────────────── */
+:focus-visible {
+  outline: 2px solid var(--purple-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
 }

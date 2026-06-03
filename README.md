@@ -16,10 +16,14 @@ Production-ready Lamena website rebuild with a modern React frontend and a Verce
 
 ```bash
 npm install
-npm run dev
+npm run dev          # frontend only (Vite)
+npm run dev:api      # Vercel dev server for /api/contact (port 3000)
 npm run build
 npm run lint
+npm run optimize:images
 ```
+
+For local contact-form testing, run `npm run dev:api` in one terminal and `VITE_API_PROXY=http://127.0.0.1:3000 npm run dev` in another.
 
 ## Routes
 

@@ -1,15 +1,26 @@
 import { Resend } from 'resend'
+import { checkRateLimit, getClientIp } from './lib/rateLimit'
+
+type ApiRequest = {
+  method?: string
+  headers: Record<string, string | string[] | undefined>
+  body?: string | Record<string, unknown>
+}
+
+type ApiResponse = {
+  status: (code: number) => { json: (body: unknown) => ApiResponse }
+  setHeader: (name: string, value: string) => void
+}
 
 const toEmail = process.env.CONTACT_TO_EMAIL || 'holger@rumscheidt.de'
 const fromEmail = process.env.CONTACT_FROM_EMAIL || 'Lamena Website <website@lamena.ae>'
-
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-function clean(value, limit = 1000) {
+function clean(value: unknown, limit = 1000) {
   return String(value || '').trim().slice(0, limit)
 }
 
-function escapeHtml(value) {
+function escapeHtml(value: unknown) {
   return clean(value, 5000)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -18,7 +29,7 @@ function escapeHtml(value) {
     .replace(/'/g, '&#039;')
 }
 
-function formatRow(label, value) {
+function formatRow(label: string, value: string) {
   if (!value) return ''
   return `
     <tr>
@@ -28,7 +39,7 @@ function formatRow(label, value) {
   `
 }
 
-export default async function handler(req, res) {
+export default async function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader('Cache-Control', 'no-store')
 
   if (req.method !== 'POST') {
@@ -36,9 +47,22 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed.' })
   }
 
-  let body = {}
+  const contentType = req.headers['content-type'] || ''
+  if (!contentType.includes('application/json')) {
+    return res.status(415).json({ message: 'Content-Type must be application/json.' })
+  }
+
+  const clientIp = getClientIp(req.headers as Record<string, string | string[] | undefined>)
+  if (!checkRateLimit(clientIp)) {
+    return res.status(429).json({ message: 'Too many requests. Please try again later.' })
+  }
+
+  let body: Record<string, unknown>
   try {
-    body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {}
+    body =
+      typeof req.body === 'string'
+        ? (JSON.parse(req.body || '{}') as Record<string, unknown>)
+        : (req.body as Record<string, unknown>) || {}
   } catch {
     return res.status(400).json({ message: 'Invalid request body.' })
   }
