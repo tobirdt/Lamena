@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #fbfaff;
+  --surface: #ffffff;
+  --surface-soft: #f2effa;
+  --surface-strong: #ece6f5;
+  --ink: #17151d;
+  --muted: #676173;
+  --muted-strong: #4a4455;
+  --purple: #6f4d92;
+  --purple-deep: #4d1fa2;
+  --purple-soft: #a887c8;
+  --line: rgba(23, 21, 29, 0.1);
+  --line-strong: rgba(111, 77, 146, 0.26);
+  --silver: #d8d5df;
+  --cyan: #75d8df;
+  --shadow: 0 24px 70px rgba(33, 25, 48, 0.13);
+  --shadow-soft: 0 14px 40px rgba(33, 25, 48, 0.08);
+  --radius: 8px;
+  --max: 1180px;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+}
+
+body,
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  border: 0;
+}
+
+::selection {
+  color: white;
+  background: var(--purple);
+}
+
+#root {
+  min-height: 100svh;
+}
