@@ -1273,24 +1273,35 @@
    RESPONSIVE — 6 systematic breakpoints
    ════════════════════════════════════════════════════════ */
 
-/* ── 1100px: Hero collapses ───────────────────────────── */
+/* ── 1100px: Hero single-column ──────────────────────── */
 @media (max-width: 1100px) {
+  /* Allow hero to grow beyond viewport if content stacks */
+  .hero-section {
+    height: auto;
+    min-height: 100svh;
+  }
+
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 44px;
   }
 
   .hero-copy {
-    max-width: 660px;
+    max-width: 680px;
   }
 
   .hero-copy h1 {
     font-size: 2.6rem;
   }
 
+  /* Constrain mark when stacked below text */
+  .hero-panel {
+    width: min(100%, 420px);
+    margin: 0 auto;
+  }
 }
 
-/* ── 960px: 2-column panels collapse ─────────────────── */
+/* ── 960px: 2-column sections collapse ───────────────── */
 @media (max-width: 960px) {
   .about-layout {
     grid-template-columns: 1fr;
@@ -1311,6 +1322,10 @@
   .contact-layout {
     grid-template-columns: 1fr;
   }
+
+  .section-heading h2 {
+    font-size: 2.5rem;
+  }
 }
 
 /* ── 768px: Tablet ────────────────────────────────────── */
@@ -1324,21 +1339,22 @@
   }
 
   .hero-copy h1 {
-    font-size: 2.4rem;
+    font-size: 2.3rem;
   }
 
+  /* Section headings smaller than hero h1 — preserve hierarchy */
   .section-heading h2,
   .legal-panel h1 {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 
   .section,
   .operating-section {
-    padding: 96px 24px;
+    padding: 88px 24px;
   }
 }
 
-/* ── 680px: Mobile nav ────────────────────────────────── */
+/* ── 680px: Mobile nav + hide hero mark ──────────────── */
 @media (max-width: 680px) {
   .site-header {
     grid-template-columns: auto 1fr auto;
@@ -1352,6 +1368,11 @@
   .menu-button {
     display: grid;
     justify-self: end;
+  }
+
+  /* Text-only hero on phones — mark takes too much space */
+  .hero-panel {
+    display: none;
   }
 
   .site-footer {
@@ -1380,17 +1401,22 @@
   }
 
   .hero-section {
-    padding: 88px 16px 32px;
+    padding: 88px 20px 36px;
   }
 
   .hero-logo {
-    width: 210px;
-    margin: 22px 0 20px;
+    width: 190px;
+    margin: 18px 0 16px;
   }
 
   .hero-copy h1 {
-    font-size: 2rem;
+    font-size: 1.95rem;
     letter-spacing: -0.02em;
+  }
+
+  .hero-copy p {
+    font-size: 0.97rem;
+    margin-top: 16px;
   }
 
   .eyebrow {
@@ -1398,59 +1424,129 @@
     padding: 7px 11px;
   }
 
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .hero-actions .primary-button,
+  .hero-actions .secondary-button {
+    width: 100%;
+    justify-content: center;
+  }
+
   .section,
   .operating-section {
-    padding: 80px 16px;
+    padding: 72px 20px;
+  }
+
+  .contact-section {
+    padding-top: 60px;
   }
 
   .legal-main {
-    padding: 118px 16px 56px;
+    padding: 110px 16px 56px;
   }
 
   .section-heading h2,
   .legal-panel h1 {
-    font-size: 1.85rem;
+    font-size: 1.75rem;
   }
 
-  .about-lead,
-  .service-column,
-  .contact-card,
-  .form-panel {
-    padding: 22px;
+  .section-heading p {
+    font-size: 0.97rem;
+    margin-top: 14px;
+  }
+
+  /* Layout margin-tops — tighter on phones */
+  .about-layout,
+  .service-columns,
+  .portfolio-grid,
+  .contact-layout,
+  .operating-steps {
+    margin-top: 36px;
+  }
+
+  /* Cards */
+  .about-lead {
+    padding: 22px 20px;
   }
 
   .about-lead::before {
     display: none;
   }
 
+  .service-column,
+  .form-panel {
+    padding: 22px 20px;
+  }
+
+  .contact-card {
+    padding: 22px 20px;
+    gap: 14px;
+  }
+
+  .contact-card picture {
+    width: 120px;
+  }
+
   .legal-panel {
-    padding: 28px 24px;
+    padding: 24px 20px;
   }
 
+  /* Expertise cards */
   .expertise-card {
-    grid-template-columns: 40px 1fr;
-    padding: 16px 18px;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 38px 1fr;
     gap: 12px;
+    padding: 14px 16px;
   }
 
+  .expertise-card > svg {
+    width: 38px;
+    height: 38px;
+    padding: 9px;
+  }
+
+  /* Service cards */
   .service-card {
-    grid-template-columns: 36px 38px 1fr;
-    min-height: 62px;
-    padding: 11px 13px;
+    grid-template-columns: 32px 36px 1fr;
+    min-height: 56px;
+    padding: 10px 12px;
+    gap: 10px;
   }
 
+  /* Portfolio */
   .portfolio-grid {
     grid-template-columns: 1fr;
   }
 
   .portfolio-visual {
-    height: 200px;
+    height: 190px;
   }
 
+  .portfolio-body {
+    padding: 18px 20px 20px;
+  }
+
+  /* Operating model */
+  .operating-card {
+    padding: 20px 18px 20px 64px;
+  }
+
+  .operating-card span {
+    left: 16px;
+    top: 20px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .operating-steps::before {
+    left: 32px;
+  }
+
+  /* Contact */
   .contact-row {
     grid-template-columns: 20px 1fr;
     gap: 12px;
@@ -1460,14 +1556,10 @@
     display: none;
   }
 
-  .hero-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .hero-actions .primary-button,
-  .hero-actions .secondary-button {
-    width: 100%;
+  /* Form */
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .submit-button {
@@ -1479,11 +1571,15 @@
 /* ── 400px: Very small phones ─────────────────────────── */
 @media (max-width: 400px) {
   .hero-copy h1 {
-    font-size: 1.75rem;
+    font-size: 1.7rem;
   }
 
   .section-heading h2 {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
+  }
+
+  .portfolio-visual {
+    height: 170px;
   }
 
   .mobile-nav {
