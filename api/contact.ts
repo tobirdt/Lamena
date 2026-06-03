@@ -26,7 +26,8 @@ function checkRateLimit(ip: string): boolean {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 const toEmail = process.env.CONTACT_TO_EMAIL || 'holger@rumscheidt.de'
-const fromEmail = process.env.CONTACT_FROM_EMAIL || 'Lamena Website <website@lamena.ae>'
+// Sender must use a domain verified in Resend (e.g. lws98.de on the free tier).
+const fromEmail = process.env.CONTACT_FROM_EMAIL || 'Lamena Website <website@lws98.de>'
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function clean(value: unknown, limit = 1000): string {

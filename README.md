@@ -39,10 +39,10 @@ The contact form sends inquiries to `holger@rumscheidt.de` by default. Configure
 ```bash
 RESEND_API_KEY=...
 CONTACT_TO_EMAIL=holger@rumscheidt.de
-CONTACT_FROM_EMAIL="Lamena Website <website@lamena.ae>"
+CONTACT_FROM_EMAIL="Lamena Website <website@lws98.de>"
 ```
 
-`CONTACT_FROM_EMAIL` must be a sender/domain verified in Resend before production email delivery can work.
+`CONTACT_FROM_EMAIL` must be a full address on a domain verified in Resend (e.g. `website@lws98.de`), not the domain name alone.
 
 ## Deployment
 
