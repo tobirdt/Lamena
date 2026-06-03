@@ -316,8 +316,12 @@
    ════════════════════════════════════════════════════════ */
 .hero-section {
   position: relative;
-  min-height: 100svh;
-  padding: 140px 24px 60px;
+  height: 100svh;
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 96px 24px 48px;
   isolation: isolate;
   background: var(--hero-bg);
 }
@@ -423,43 +427,6 @@
   display: block;
 }
 
-/* ─── Proof strip ────────────────────────────────────── */
-.proof-strip {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: min(100%, var(--max));
-  margin: 44px auto 0;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(16px);
-  overflow: hidden;
-}
-
-.proof-strip div {
-  padding: 24px 28px;
-}
-
-.proof-strip div + div {
-  border-left: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.proof-strip strong {
-  display: block;
-  color: var(--hero-text);
-  font-size: 1.75rem;
-  font-weight: 720;
-  letter-spacing: -0.022em;
-  line-height: 1;
-}
-
-.proof-strip span {
-  display: block;
-  margin-top: 6px;
-  color: var(--hero-muted);
-  font-size: 0.86rem;
-  line-height: 1.45;
-}
 
 /* ════════════════════════════════════════════════════════
    SECTIONS — shared layout primitives
@@ -1387,15 +1354,6 @@
     justify-self: end;
   }
 
-  .proof-strip {
-    grid-template-columns: 1fr;
-  }
-
-  .proof-strip div + div {
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
-    border-left: 0;
-  }
-
   .site-footer {
     grid-template-columns: 1fr;
     justify-items: start;
@@ -1422,7 +1380,7 @@
   }
 
   .hero-section {
-    padding: 108px 16px 40px;
+    padding: 88px 16px 32px;
   }
 
   .hero-logo {
@@ -1526,10 +1484,6 @@
 
   .section-heading h2 {
     font-size: 1.7rem;
-  }
-
-  .proof-strip strong {
-    font-size: 1.55rem;
   }
 
   .mobile-nav {

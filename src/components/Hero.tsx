@@ -1,7 +1,6 @@
 import { ArrowRight, Signal } from 'lucide-react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { proofPoints } from '../data/content'
 import { HeroMark } from './HeroMark'
 import { Reveal } from './Reveal'
 
@@ -72,8 +71,8 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
           >
-            Lamena connects technical expertise, global market access and trusted delivery for
-            governmental authorities, security organizations and communication providers worldwide.
+            Connecting technical expertise, global partnerships and trusted delivery
+            for demanding environments worldwide.
           </motion.p>
 
           <motion.div
@@ -96,21 +95,6 @@ export function Hero() {
           <HeroMark />
         </Reveal>
       </div>
-
-      <motion.div
-        className="proof-strip"
-        aria-label="Lamena key facts"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.56, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {proofPoints.map((point) => (
-          <div key={point.label}>
-            <strong>{point.value}</strong>
-            <span>{point.label}</span>
-          </div>
-        ))}
-      </motion.div>
     </section>
   )
 }
