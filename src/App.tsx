@@ -150,7 +150,7 @@ const privacySections = [
   {
     title: 'Retention',
     paragraphs: [
-      'Inquiry data is kept only as long as needed to respond, manage the business relationship and comply with legal duties. As a working default, inquiries should be reviewed for deletion after 24 months unless longer retention is required.',
+      'Inquiry data is kept only as long as needed to respond, manage the business relationship and comply with legal duties. Inquiries are generally reviewed for deletion after 24 months unless longer retention is required.',
       'Technical logs are retained according to the applicable hosting and security provider settings.',
     ],
   },
@@ -788,8 +788,9 @@ function LegalPage({ eyebrow, title, sections }: { eyebrow: string; title: strin
           <span className="section-kicker">{eyebrow}</span>
           <h1>{title}</h1>
           <p>
-            The following information has been adapted to the current Lamena website setup and should be
-            reviewed before final publication.
+            {title === 'Privacy Policy'
+              ? 'This Privacy Policy explains how personal data is processed when visitors use this website or submit an inquiry.'
+              : 'These Terms & Conditions explain the rules for accessing and using the Lamena website.'}
           </p>
           <div className="legal-content">
             {sections.map((section) => (
