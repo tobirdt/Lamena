@@ -2,8 +2,8 @@ import { ArrowRight, Signal } from 'lucide-react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { proofPoints } from '../data/content'
+import { HeroMark } from './HeroMark'
 import { Reveal } from './Reveal'
-import { SignalConsole } from './SignalConsole'
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion()
@@ -93,7 +93,7 @@ export function Hero() {
         </motion.div>
 
         <Reveal className="hero-panel" delay={0.14}>
-          <SignalConsole />
+          <HeroMark />
         </Reveal>
       </div>
 

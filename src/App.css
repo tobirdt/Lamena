@@ -410,155 +410,17 @@
 
 .hero-panel {
   min-width: 0;
-}
-
-/* ─── Signal Console ─────────────────────────────────── */
-.signal-console {
-  position: relative;
-  overflow: hidden;
-  min-height: 580px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: var(--radius-lg);
-  background:
-    linear-gradient(150deg, rgba(28, 22, 48, 0.92) 0%, rgba(18, 14, 30, 0.96) 100%);
-  box-shadow:
-    0 0 0 1px rgba(111, 77, 146, 0.1) inset,
-    0 32px 80px rgba(0, 0, 0, 0.4);
-}
-
-.console-header,
-.console-footer {
-  position: relative;
-  z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 18px;
+  justify-content: center;
 }
 
-.console-header {
-  padding: 26px 28px 0;
-}
-
-.console-header span,
-.console-footer span {
-  display: block;
-  color: rgba(180, 162, 216, 0.48);
-  font-size: 0.71rem;
-  font-weight: 680;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.console-header strong {
-  display: block;
-  margin-top: 4px;
-  color: rgba(240, 235, 255, 0.9);
-  font-size: 1.08rem;
-  font-weight: 520;
-  letter-spacing: -0.01em;
-}
-
-.console-header svg {
-  width: 38px;
-  height: 38px;
-  padding: 9px;
-  border: 1px solid rgba(111, 77, 146, 0.28);
-  border-radius: 8px;
-  color: var(--purple-soft);
-  background: rgba(111, 77, 146, 0.1);
-}
-
-.console-map {
-  position: relative;
-  height: 410px;
-  margin: 22px 22px;
-  overflow: hidden;
-  border: 1px solid rgba(111, 77, 146, 0.12);
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.console-grid,
-.mini-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(111, 77, 146, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(111, 77, 146, 0.09) 1px, transparent 1px);
-  background-size: 36px 36px;
-}
-
-.connection-lines {
-  position: absolute;
-  inset: 0;
+/* ─── Hero Mark — three-pillar ring composition ──────── */
+.hero-mark {
   width: 100%;
-  height: 100%;
-}
-
-.connection-lines path {
-  fill: none;
-  stroke: rgba(168, 135, 200, 0.42);
-  stroke-width: 0.42;
-}
-
-.scan-line {
-  position: absolute;
-  inset-block: 0;
-  width: 130px;
-  background: linear-gradient(90deg, transparent, rgba(117, 216, 223, 0.16), transparent);
-  transform: skewX(-12deg);
-}
-
-.map-node {
-  position: absolute;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border: 1px solid rgba(168, 135, 200, 0.28);
-  border-radius: 50%;
-  color: var(--purple-soft);
-  font-size: 0.7rem;
-  font-weight: 780;
-  letter-spacing: 0.03em;
-  background: rgba(28, 20, 50, 0.9);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.32);
-}
-
-.pulse-core {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 4;
-  display: grid;
-  place-items: center;
-  width: 84px;
-  height: 84px;
-  border: 1px solid rgba(111, 77, 146, 0.28);
-  border-radius: 50%;
-  color: white;
-  background: linear-gradient(135deg, rgba(77, 31, 162, 0.88), rgba(111, 77, 146, 0.82));
-  box-shadow:
-    0 0 0 14px rgba(111, 77, 146, 0.06),
-    0 0 0 28px rgba(111, 77, 146, 0.03),
-    0 18px 48px rgba(77, 31, 162, 0.32);
-  transform: translate(-50%, -50%);
-}
-
-.pulse-core svg {
-  width: 30px;
-  height: 30px;
-}
-
-.console-footer {
-  padding: 0 28px 24px;
-}
-
-.console-footer span {
-  padding-top: 12px;
-  border-top: 1px solid rgba(111, 77, 146, 0.16);
+  max-width: 480px;
+  height: auto;
+  display: block;
 }
 
 /* ─── Proof strip ────────────────────────────────────── */
@@ -1459,13 +1321,6 @@
     font-size: 3.5rem;
   }
 
-  .signal-console {
-    min-height: 480px;
-  }
-
-  .console-map {
-    height: 320px;
-  }
 }
 
 /* ── 960px: 2-column panels collapse ─────────────────── */
@@ -1636,33 +1491,6 @@
 
   .portfolio-visual {
     height: 200px;
-  }
-
-  .signal-console {
-    min-height: 390px;
-  }
-
-  .console-header {
-    padding: 18px 18px 0;
-  }
-
-  .console-map {
-    height: 250px;
-    margin: 14px 14px;
-  }
-
-  .console-footer {
-    display: none;
-  }
-
-  .pulse-core {
-    width: 66px;
-    height: 66px;
-  }
-
-  .pulse-core svg {
-    width: 24px;
-    height: 24px;
   }
 
   .contact-row {
