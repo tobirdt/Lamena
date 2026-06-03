@@ -1,26 +1,39 @@
 import { Resend } from 'resend'
-import { checkRateLimit, getClientIp } from './lib/rateLimit'
 
-type ApiRequest = {
-  method?: string
-  headers: Record<string, string | string[] | undefined>
-  body?: string | Record<string, unknown>
+// ─── Rate limiting (in-memory, per serverless instance) ─────────────────────
+const RATE_WINDOW_MS = 15 * 60 * 1000 // 15 min
+const RATE_MAX = 8
+const hits = new Map<string, { count: number; resetAt: number }>()
+
+function getClientIp(headers: Record<string, string | string[] | undefined>): string {
+  const forwarded = headers['x-forwarded-for']
+  if (typeof forwarded === 'string') return forwarded.split(',')[0]?.trim() || 'unknown'
+  if (Array.isArray(forwarded)) return forwarded[0]?.split(',')[0]?.trim() || 'unknown'
+  return 'unknown'
 }
 
-type ApiResponse = {
-  status: (code: number) => { json: (body: unknown) => ApiResponse }
-  setHeader: (name: string, value: string) => void
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const entry = hits.get(ip)
+  if (!entry || now > entry.resetAt) {
+    hits.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS })
+    return true
+  }
+  if (entry.count >= RATE_MAX) return false
+  entry.count += 1
+  return true
 }
 
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 const toEmail = process.env.CONTACT_TO_EMAIL || 'holger@rumscheidt.de'
 const fromEmail = process.env.CONTACT_FROM_EMAIL || 'Lamena Website <website@lamena.ae>'
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-function clean(value: unknown, limit = 1000) {
+function clean(value: unknown, limit = 1000): string {
   return String(value || '').trim().slice(0, limit)
 }
 
-function escapeHtml(value: unknown) {
+function escapeHtml(value: unknown): string {
   return clean(value, 5000)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -29,7 +42,7 @@ function escapeHtml(value: unknown) {
     .replace(/'/g, '&#039;')
 }
 
-function formatRow(label: string, value: string) {
+function formatRow(label: string, value: string): string {
   if (!value) return ''
   return `
     <tr>
@@ -39,7 +52,9 @@ function formatRow(label: string, value: string) {
   `
 }
 
-export default async function handler(req: ApiRequest, res: ApiResponse) {
+// ─── Handler ─────────────────────────────────────────────────────────────────
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function handler(req: any, res: any) {
   res.setHeader('Cache-Control', 'no-store')
 
   if (req.method !== 'POST') {
@@ -47,13 +62,13 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return res.status(405).json({ message: 'Method not allowed.' })
   }
 
-  const contentType = req.headers['content-type'] || ''
+  const contentType: string = req.headers['content-type'] || ''
   if (!contentType.includes('application/json')) {
     return res.status(415).json({ message: 'Content-Type must be application/json.' })
   }
 
-  const clientIp = getClientIp(req.headers as Record<string, string | string[] | undefined>)
-  if (!checkRateLimit(clientIp)) {
+  const ip = getClientIp(req.headers)
+  if (!checkRateLimit(ip)) {
     return res.status(429).json({ message: 'Too many requests. Please try again later.' })
   }
 
@@ -67,6 +82,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return res.status(400).json({ message: 'Invalid request body.' })
   }
 
+  // Honeypot
   if (clean(body.website)) {
     return res.status(200).json({ ok: true })
   }
@@ -88,7 +104,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   }
 
   if (!process.env.RESEND_API_KEY) {
-    return res.status(500).json({ message: 'Email service is not configured yet.' })
+    console.error('RESEND_API_KEY is not set')
+    return res.status(500).json({ message: 'Email service is not configured.' })
   }
 
   const fullName = `${firstName} ${lastName}`.trim()
@@ -96,7 +113,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   const submittedAt = new Date().toISOString()
 
   try {
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: fromEmail,
       to: toEmail,
       replyTo: email,
@@ -138,9 +155,14 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       `,
     })
 
+    if (error) {
+      console.error('Resend error:', error)
+      return res.status(500).json({ message: 'The inquiry could not be sent. Please try again.' })
+    }
+
     return res.status(200).json({ ok: true })
-  } catch (error) {
-    console.error('Lamena contact email failed', error)
-    return res.status(500).json({ message: 'The inquiry could not be sent. Please try again later.' })
+  } catch (err) {
+    console.error('Lamena contact email failed:', err)
+    return res.status(500).json({ message: 'The inquiry could not be sent. Please try again.' })
   }
 }
