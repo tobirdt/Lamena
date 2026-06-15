@@ -1,6 +1,7 @@
 import { ArrowRight, Signal } from 'lucide-react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { EASE_OUT } from '../lib/motion'
 import { HeroMark } from './HeroMark'
 import { Reveal } from './Reveal'
 
@@ -9,6 +10,7 @@ export function Hero() {
   const { scrollYProgress } = useScroll()
   const patternY = useTransform(scrollYProgress, [0, 0.4], [0, -48])
   const glowY = useTransform(scrollYProgress, [0, 0.4], [0, 30])
+  const staticEnter = prefersReducedMotion ? false : undefined
 
   return (
     <section className="hero-section" id="home">
@@ -26,24 +28,24 @@ export function Hero() {
       <div className="hero-grid">
         <motion.div
           className="hero-copy"
-          initial={{ opacity: 0, y: 28 }}
+          initial={staticEnter ?? { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.72, ease: EASE_OUT }}
         >
           <motion.div
             className="eyebrow"
-            initial={{ opacity: 0, y: 12 }}
+            initial={staticEnter ?? { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.55, delay: 0.08, ease: EASE_OUT }}
           >
             <Signal aria-hidden="true" />
             Security. Safety. Communication.
           </motion.div>
 
           <motion.picture
-            initial={{ opacity: 0 }}
+            initial={staticEnter ?? { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.18 }}
+            transition={{ duration: 0.6, delay: 0.14, ease: EASE_OUT }}
           >
             <source srcSet="/assets/lamena-logo.webp" type="image/webp" />
             <img
@@ -59,17 +61,17 @@ export function Hero() {
           </motion.picture>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={staticEnter ?? { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.65, delay: 0.2, ease: EASE_OUT }}
           >
             Strategic security and communication engineering.
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={staticEnter ?? { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, delay: 0.28, ease: EASE_OUT }}
           >
             Connecting technical expertise, global partnerships and trusted delivery
             for demanding environments worldwide.
@@ -77,9 +79,9 @@ export function Hero() {
 
           <motion.div
             className="hero-actions"
-            initial={{ opacity: 0, y: 12 }}
+            initial={staticEnter ?? { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.44, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.55, delay: 0.36, ease: EASE_OUT }}
           >
             <Link className="primary-button" to="/#contact">
               Send inquiry
@@ -91,7 +93,7 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
-        <Reveal className="hero-panel" delay={0.14}>
+        <Reveal className="hero-panel" delay={0.12}>
           <HeroMark />
         </Reveal>
       </div>

@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { expertiseItems } from '../../data/content'
+import { EASE_OUT } from '../../lib/motion'
 import { Reveal } from '../Reveal'
 
 export function AboutSection() {
@@ -38,9 +39,9 @@ export function AboutSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{
-                duration: 0.55,
-                delay: 0.08 + index * 0.08,
-                ease: [0.22, 1, 0.36, 1],
+                duration: 0.5,
+                delay: 0.06 + index * 0.07,
+                ease: EASE_OUT,
                 ...(prefersReducedMotion ? { duration: 0.001 } : {}),
               }}
             >

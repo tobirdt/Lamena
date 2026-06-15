@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { consultingAreas, mediationAreas } from '../../data/content'
+import { EASE_OUT } from '../../lib/motion'
 import type { IconCard } from '../../types/content'
 import { Reveal } from '../Reveal'
 
@@ -18,12 +19,11 @@ function ServiceColumn({ title, items, baseDelay = 0 }: { title: string; items: 
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-48px' }}
             transition={{
-              duration: 0.48,
-              delay: baseDelay + index * 0.06,
-              ease: [0.22, 1, 0.36, 1],
+              duration: 0.45,
+              delay: baseDelay + index * 0.05,
+              ease: EASE_OUT,
               ...(prefersReducedMotion ? { duration: 0.001 } : {}),
             }}
-            whileHover={{ x: 5 }}
           >
             <span>{String(index + 1).padStart(2, '0')}</span>
             <item.icon aria-hidden="true" />

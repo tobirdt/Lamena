@@ -7,7 +7,7 @@
   --surface-soft: #f1edf8;
   --surface-strong: #e8e2f2;
   --ink: #11101a;
-  --muted: #6a6278;
+  --muted: #57515f;
   --muted-strong: #47404f;
 
   /* Purple scale */
@@ -31,12 +31,29 @@
   --cyan: #75d8df;
   --shadow: 0 24px 64px rgba(26, 18, 44, 0.12);
   --shadow-soft: 0 8px 32px rgba(26, 18, 44, 0.07);
-  --shadow-card: 0 2px 12px rgba(26, 18, 44, 0.06), 0 8px 32px rgba(26, 18, 44, 0.07);
+  --shadow-card: 0 1px 2px rgba(26, 18, 44, 0.04), 0 6px 20px rgba(26, 18, 44, 0.06);
 
   /* Layout */
   --radius: 10px;
   --radius-lg: 14px;
   --max: 1180px;
+  --prose: 65ch;
+  --header-offset: 96px;
+
+  /* Spacing rhythm (8pt grid) */
+  --section-y: 120px;
+  --section-x: 24px;
+  --section-gap: 56px;
+  --stack-sm: 12px;
+  --stack-md: 24px;
+  --stack-lg: 48px;
+
+  /* Motion — ease-out for entrances, ease for hovers */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --duration-fast: 160ms;
+  --duration-ui: 220ms;
+  --duration-reveal: 650ms;
 
   /* Typography */
   font-family:

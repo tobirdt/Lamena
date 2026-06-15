@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import type { ComponentType } from 'react'
 import { portfolioCards } from '../../data/content'
 import type { PortfolioCard } from '../../types/content'
@@ -17,7 +16,7 @@ function PortfolioCardItem({ card, index }: { card: PortfolioCard; index: number
   const Visual = VISUALS[card.type]
 
   return (
-    <Reveal className="portfolio-card" delay={index * 0.1}>
+    <Reveal className="portfolio-card" delay={index * 0.08}>
       <div className="portfolio-visual">
         <Visual />
         <div className="portfolio-visual-tag">
@@ -46,17 +45,11 @@ export function PortfolioSection() {
         </p>
       </Reveal>
 
-      <motion.div
-        className="portfolio-grid"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
-        variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
-      >
+      <div className="portfolio-grid">
         {portfolioCards.map((card, index) => (
           <PortfolioCardItem key={card.title} card={card} index={index} />
         ))}
-      </motion.div>
+      </div>
     </section>
   )
 }

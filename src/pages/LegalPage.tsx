@@ -44,7 +44,7 @@ export function LegalPage({ eyebrow, title, sections }: LegalPageProps) {
               </section>
             ))}
           </div>
-          <Link className="secondary-button" to="/">
+          <Link className="secondary-button secondary-button--surface" to="/">
             Back to Lamena
           </Link>
         </Reveal>

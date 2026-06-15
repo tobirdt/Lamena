@@ -1,13 +1,15 @@
 import { ArrowRight, Menu, X } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { navItems } from '../data/content'
+import { EASE_OUT } from '../lib/motion'
 import { BrandLogo } from './BrandLogo'
 
 export function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 72)
@@ -16,8 +18,37 @@ export function Header() {
     return () => window.removeEventListener('scroll', handler)
   }, [])
 
+  useEffect(() => {
+    if (!open) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) setOpen(false)
+    }
+
+    const onResize = () => {
+      if (window.innerWidth > 680) setOpen(false)
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    window.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('resize', onResize)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('pointerdown', onPointerDown)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [open])
+
   return (
-    <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
+    <header ref={headerRef} className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <Link className="brand-link" to="/" aria-label="Lamena home">
         <BrandLogo loading="eager" fetchPriority="high" />
       </Link>
@@ -45,25 +76,28 @@ export function Header() {
         {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
       </button>
 
-      {open && (
-        <motion.nav
-          className="mobile-nav"
-          aria-label="Mobile navigation"
-          initial={{ opacity: 0, y: -8, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {navItems.map((item) => (
-            <Link key={item.href} to={`/${item.href}`} onClick={() => setOpen(false)}>
-              {item.label}
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            className="mobile-nav"
+            aria-label="Mobile navigation"
+            initial={{ opacity: 0, y: -6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.97 }}
+            transition={{ duration: 0.18, ease: EASE_OUT }}
+          >
+            {navItems.map((item) => (
+              <Link key={item.href} to={`/${item.href}`} onClick={() => setOpen(false)}>
+                {item.label}
+              </Link>
+            ))}
+            <Link to="/#contact" className="mobile-nav-cta" onClick={() => setOpen(false)}>
+              Send inquiry
+              <ArrowRight aria-hidden="true" />
             </Link>
-          ))}
-          <Link to="/#contact" className="mobile-nav-cta" onClick={() => setOpen(false)}>
-            Send inquiry
-            <ArrowRight aria-hidden="true" />
-          </Link>
-        </motion.nav>
-      )}
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

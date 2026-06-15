@@ -1,6 +1,8 @@
 import { AlertCircle, CheckCircle2, Mail, Send } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { type ChangeEvent, type FormEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { EASE_OUT } from '../lib/motion'
 import type { ContactFormState } from '../types/content'
 
 const emptyContactForm: ContactFormState = {
@@ -114,11 +116,23 @@ export function ContactForm() {
         <Send aria-hidden="true" />
       </button>
 
-      <p className={`form-status ${status}`} aria-live="polite">
-        {status === 'sent' && <CheckCircle2 aria-hidden="true" />}
-        {status === 'error' && <AlertCircle aria-hidden="true" />}
-        {message}
-      </p>
+      <AnimatePresence mode="wait">
+        {message && (
+          <motion.p
+            key={status}
+            className={`form-status ${status}`}
+            aria-live="polite"
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.2, ease: EASE_OUT }}
+          >
+            {status === 'sent' && <CheckCircle2 aria-hidden="true" />}
+            {status === 'error' && <AlertCircle aria-hidden="true" />}
+            {message}
+          </motion.p>
+        )}
+      </AnimatePresence>
     </form>
   )
 }

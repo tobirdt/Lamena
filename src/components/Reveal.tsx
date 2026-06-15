@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import type { ReactNode } from 'react'
+import { EASE_OUT } from '../lib/motion'
 
 type RevealProps = {
   children: ReactNode
@@ -8,7 +9,7 @@ type RevealProps = {
   distance?: number
 }
 
-export function Reveal({ children, className, delay = 0, distance = 20 }: RevealProps) {
+export function Reveal({ children, className, delay = 0, distance = 18 }: RevealProps) {
   const prefersReducedMotion = useReducedMotion()
 
   if (prefersReducedMotion) {
@@ -21,7 +22,7 @@ export function Reveal({ children, className, delay = 0, distance = 20 }: Reveal
       initial={{ opacity: 0, y: distance }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-72px' }}
-      transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.58, delay, ease: EASE_OUT }}
     >
       {children}
     </motion.div>
