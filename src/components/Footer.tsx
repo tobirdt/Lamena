@@ -4,15 +4,20 @@ import { BrandLogo } from './BrandLogo'
 export function Footer() {
   return (
     <footer className="site-footer">
-      <Link to="/" className="footer-brand">
-        <BrandLogo />
-      </Link>
-      <div className="footer-links">
-        <Link to="/privacy">Privacy & Legal</Link>
-        <Link to="/terms">Terms & Conditions</Link>
-        <Link to="/#home">Home</Link>
+      <div className="footer-main">
+        <Link to="/" className="footer-brand">
+          <BrandLogo />
+        </Link>
+        <div className="footer-links">
+          <Link to="/#home">Home</Link>
+          <Link to="/privacy">Privacy &amp; Legal</Link>
+          <Link to="/terms">Terms &amp; Conditions</Link>
+        </div>
       </div>
-      <span>Lamena © 2026</span>
+      <div className="footer-meta">
+        <span>Lamena FZE · Jebel Ali Free Zone · Dubai, UAE</span>
+        <span>© 2026</span>
+      </div>
     </footer>
   )
 }

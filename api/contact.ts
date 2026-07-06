@@ -92,8 +92,10 @@ export default async function handler(req: any, res: any) {
     return res.status(400).json({ message: 'Invalid request body.' })
   }
 
-  // Honeypot
-  if (clean(body.website)) {
+  // Honeypot (non-semantic field name — real browsers never autofill it).
+  // `website` kept for backward compatibility with cached clients.
+  if (clean(body.xfield) || clean(body.website)) {
+    console.warn('Contact honeypot triggered', { ip })
     return res.status(200).json({ ok: true })
   }
 

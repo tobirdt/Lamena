@@ -79,13 +79,13 @@ export function FinanceVisual() {
             />
             <text
               x={tileX + 10} y="30"
-              fill="rgba(255,255,255,0.28)" fontSize="6.5" fontFamily="monospace" letterSpacing="0.07em"
+              fill="rgba(255,255,255,0.28)" fontSize="6.5" fontFamily="'IBM Plex Mono', ui-monospace, monospace" letterSpacing="0.07em"
             >
               {kpi.label.toUpperCase()}
             </text>
             <text
               x={tileX + 10} y="49"
-              fill={kpi.color} fontSize="16" fontFamily="monospace" fontWeight="600"
+              fill={kpi.color} fontSize="16" fontFamily="'IBM Plex Mono', ui-monospace, monospace" fontWeight="600"
             >
               {kpi.value}
             </text>
@@ -144,7 +144,7 @@ export function FinanceVisual() {
         transition={{ delay: 1.8 }}
       >
         <rect x="334" y="78" width="54" height="22" rx="3" fill="rgba(111,77,146,0.25)" stroke="rgba(139,102,184,0.5)" strokeWidth="0.6" />
-        <text x="361" y="91" fill="#b09fd0" fontSize="9" fontFamily="monospace" textAnchor="middle" fontWeight="600">
+        <text x="361" y="91" fill="#b09fd0" fontSize="9" fontFamily="'IBM Plex Mono', ui-monospace, monospace" textAnchor="middle" fontWeight="600">
           +24.3%
         </text>
         {/* Connector to last point */}
@@ -156,7 +156,7 @@ export function FinanceVisual() {
         <text
           key={q}
           x={34 + i * 88} y="204"
-          fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="monospace" textAnchor="middle"
+          fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="'IBM Plex Mono', ui-monospace, monospace" textAnchor="middle"
         >
           {q}
         </text>
@@ -165,7 +165,7 @@ export function FinanceVisual() {
       {/* Header */}
       <text
         x="360" y="16"
-        fill="rgba(255,255,255,0.28)" fontSize="7.5" fontFamily="monospace" letterSpacing="0.09em"
+        fill="rgba(255,255,255,0.28)" fontSize="7.5" fontFamily="'IBM Plex Mono', ui-monospace, monospace" letterSpacing="0.09em"
         textAnchor="end"
       >
         PERFORMANCE METRICS

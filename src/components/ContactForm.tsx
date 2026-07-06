@@ -1,6 +1,6 @@
-import { AlertCircle, CheckCircle2, Mail, Send } from 'lucide-react'
+import { AlertCircle, ArrowLeft, CheckCircle2, Mail, Send } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { type ChangeEvent, type FormEvent, useState } from 'react'
+import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { EASE_OUT } from '../lib/motion'
 import type { ContactFormState } from '../types/content'
@@ -13,13 +13,18 @@ const emptyContactForm: ContactFormState = {
   phone: '',
   message: '',
   consent: false,
-  website: '',
+  xfield: '',
 }
 
 export function ContactForm() {
   const [form, setForm] = useState<ContactFormState>(emptyContactForm)
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [message, setMessage] = useState('')
+  const successHeadingRef = useRef<HTMLHeadingElement>(null)
+
+  useEffect(() => {
+    if (status === 'sent') successHeadingRef.current?.focus()
+  }, [status])
 
   function updateField(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, type, value } = event.target
@@ -45,12 +50,37 @@ export function ContactForm() {
       }
 
       setStatus('sent')
-      setMessage('Thank you. Your inquiry has been sent to Lamena.')
+      setMessage('')
       setForm(emptyContactForm)
     } catch (error) {
       setStatus('error')
       setMessage(error instanceof Error ? error.message : 'The inquiry could not be sent.')
     }
+  }
+
+  if (status === 'sent') {
+    return (
+      <motion.div
+        className="form-success"
+        role="status"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: EASE_OUT }}
+      >
+        <CheckCircle2 aria-hidden="true" />
+        <h3 ref={successHeadingRef} tabIndex={-1}>
+          Inquiry sent.
+        </h3>
+        <p>
+          Thank you — your message has been delivered and the right person at Lamena
+          will follow up.
+        </p>
+        <button className="secondary-button secondary-button--surface" type="button" onClick={() => setStatus('idle')}>
+          <ArrowLeft aria-hidden="true" />
+          Send another inquiry
+        </button>
+      </motion.div>
+    )
   }
 
   return (
@@ -81,11 +111,15 @@ export function ContactForm() {
 
       <div className="form-grid">
         <label>
-          Company
+          <span>
+            Company <em>optional</em>
+          </span>
           <input name="company" value={form.company} onChange={updateField} autoComplete="organization" />
         </label>
         <label>
-          Phone
+          <span>
+            Phone <em>optional</em>
+          </span>
           <input name="phone" value={form.phone} onChange={updateField} autoComplete="tel" />
         </label>
       </div>
@@ -107,12 +141,12 @@ export function ContactForm() {
       </label>
 
       <label className="screen-reader-field" aria-hidden="true">
-        Website
-        <input name="website" value={form.website} onChange={updateField} tabIndex={-1} autoComplete="off" />
+        Leave this field empty
+        <input name="xfield" value={form.xfield} onChange={updateField} tabIndex={-1} autoComplete="off" />
       </label>
 
       <button className="primary-button submit-button" type="submit" disabled={status === 'sending'}>
-        {status === 'sending' ? 'Sending...' : 'Send inquiry'}
+        {status === 'sending' ? 'Sending…' : 'Send inquiry'}
         <Send aria-hidden="true" />
       </button>
 
@@ -127,7 +161,6 @@ export function ContactForm() {
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.2, ease: EASE_OUT }}
           >
-            {status === 'sent' && <CheckCircle2 aria-hidden="true" />}
             {status === 'error' && <AlertCircle aria-hidden="true" />}
             {message}
           </motion.p>

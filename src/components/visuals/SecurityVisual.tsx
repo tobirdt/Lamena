@@ -132,7 +132,7 @@ export function SecurityVisual() {
               y={y + 1}
               fill="rgba(255,255,255,0.32)"
               fontSize="6.5"
-              fontFamily="monospace"
+              fontFamily="'IBM Plex Mono', ui-monospace, monospace"
               textAnchor={isRight ? 'start' : 'end'}
               dominantBaseline="middle"
             >
@@ -154,7 +154,7 @@ export function SecurityVisual() {
       {/* Header row */}
       <text
         x="14" y="16"
-        fill="rgba(255,255,255,0.28)" fontSize="7.5" fontFamily="monospace" letterSpacing="0.09em"
+        fill="rgba(255,255,255,0.28)" fontSize="7.5" fontFamily="'IBM Plex Mono', ui-monospace, monospace" letterSpacing="0.09em"
       >
         THREAT ANALYSIS · REALTIME
       </text>
@@ -163,7 +163,7 @@ export function SecurityVisual() {
         animate={inView && !reduced ? { fillOpacity: [0.9, 0.3, 0.9] } : {}}
         transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
       />
-      <text x="376" y="16" fill="rgba(255,255,255,0.28)" fontSize="7" fontFamily="monospace" textAnchor="end">
+      <text x="376" y="16" fill="rgba(255,255,255,0.28)" fontSize="7" fontFamily="'IBM Plex Mono', ui-monospace, monospace" textAnchor="end">
         SECURE
       </text>
 
@@ -172,7 +172,7 @@ export function SecurityVisual() {
       <rect x="0" y="200" width="400" height="0.7" fill="rgba(111,77,146,0.22)" />
       <motion.text
         x="14" y="213"
-        fill="rgba(255,255,255,0.24)" fontSize="6.5" fontFamily="monospace" letterSpacing="0.08em"
+        fill="rgba(255,255,255,0.24)" fontSize="6.5" fontFamily="'IBM Plex Mono', ui-monospace, monospace" letterSpacing="0.08em"
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ delay: 1.4 }}

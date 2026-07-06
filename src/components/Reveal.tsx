@@ -9,7 +9,7 @@ type RevealProps = {
   distance?: number
 }
 
-export function Reveal({ children, className, delay = 0, distance = 18 }: RevealProps) {
+export function Reveal({ children, className, delay = 0, distance = 14 }: RevealProps) {
   const prefersReducedMotion = useReducedMotion()
 
   if (prefersReducedMotion) {
@@ -22,7 +22,7 @@ export function Reveal({ children, className, delay = 0, distance = 18 }: Reveal
       initial={{ opacity: 0, y: distance }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-72px' }}
-      transition={{ duration: 0.58, delay, ease: EASE_OUT }}
+      transition={{ duration: 0.45, delay, ease: EASE_OUT }}
     >
       {children}
     </motion.div>

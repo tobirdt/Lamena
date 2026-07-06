@@ -15,7 +15,7 @@ export function AboutSection() {
 
       <div className="about-layout">
         <Reveal className="about-lead" delay={0.06}>
-          <p>
+          <p className="about-statement">
             With more than 20 years of experience in communication and security &amp; safety
             engineering, Lamena delivers comprehensive security solutions, high-quality technical
             advice and professional training to clients across government, defense, industry and
@@ -30,29 +30,29 @@ export function AboutSection() {
           </p>
         </Reveal>
 
-        <div className="expertise-stack">
+        {/* list-style:none strips the list role in Safari — restore it */}
+        <ol className="expertise-list" role="list">
           {expertiseItems.map((item, index) => (
-            <motion.div
-              className="expertise-card"
+            <motion.li
               key={item.title}
-              initial={{ opacity: 0, x: 16 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{
-                duration: 0.5,
-                delay: 0.06 + index * 0.07,
+                duration: 0.45,
+                delay: 0.08 + index * 0.08,
                 ease: EASE_OUT,
                 ...(prefersReducedMotion ? { duration: 0.001 } : {}),
               }}
             >
-              <item.icon aria-hidden="true" />
+              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               <div>
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
               </div>
-            </motion.div>
+            </motion.li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   )

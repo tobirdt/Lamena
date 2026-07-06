@@ -2,20 +2,38 @@ import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { useRef } from 'react'
 
 // Three circles form an equilateral-ish triangle composition.
-// Centroid (triple-intersection center): approx (210, 167)
+// Centroid (triple-intersection center): approx (210, 187)
 const CIRCLES = [
-  { cx: 148, cy: 138, delay: 0 },
-  { cx: 272, cy: 138, delay: 0.28 },
-  { cx: 210, cy: 224, delay: 0.56 },
+  { cx: 148, cy: 158, delay: 0 },
+  { cx: 272, cy: 158, delay: 0.28 },
+  { cx: 210, cy: 244, delay: 0.56 },
 ]
 
 const LABELS = [
-  { text: 'Security',       x: 148, y: 22,  anchor: 'middle' as const },
-  { text: 'Safety',         x: 272, y: 22,  anchor: 'middle' as const },
-  { text: 'Communication',  x: 210, y: 362, anchor: 'middle' as const },
+  { text: 'Security',       x: 148, y: 42,  anchor: 'middle' as const },
+  { text: 'Safety',         x: 272, y: 42,  anchor: 'middle' as const },
+  { text: 'Communication',  x: 210, y: 382, anchor: 'middle' as const },
 ]
 
 const R = 112
+const CX = 210
+const CY = 187
+// Outer instrument ring radius
+const RING = 178
+
+// 24 tick marks around the instrument ring
+const TICKS = Array.from({ length: 24 }, (_, i) => {
+  const angle = (i / 24) * Math.PI * 2
+  const isMajor = i % 6 === 0
+  const r1 = RING - (isMajor ? 7 : 4)
+  return {
+    x1: CX + r1 * Math.cos(angle),
+    y1: CY + r1 * Math.sin(angle),
+    x2: CX + RING * Math.cos(angle),
+    y2: CY + RING * Math.sin(angle),
+    isMajor,
+  }
+})
 
 export function HeroMark() {
   const ref = useRef<SVGSVGElement>(null)
@@ -25,7 +43,7 @@ export function HeroMark() {
   return (
     <svg
       ref={ref}
-      viewBox="0 0 420 378"
+      viewBox="0 0 420 398"
       className="hero-mark"
       aria-hidden="true"
     >
@@ -40,14 +58,43 @@ export function HeroMark() {
         </radialGradient>
       </defs>
 
+      {/* Instrument ring — dashed orbit + tick marks, slow rotation */}
+      <motion.g
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 1, delay: 1.1 }}
+      >
+        <motion.g
+          style={{ transformOrigin: `${CX}px ${CY}px` }}
+          animate={inView && !reduced ? { rotate: 360 } : {}}
+          transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+        >
+          <circle
+            cx={CX} cy={CY} r={RING}
+            fill="none"
+            stroke="rgba(255,255,255,0.09)"
+            strokeWidth="0.7"
+            strokeDasharray="1 7"
+          />
+          {TICKS.map((t, i) => (
+            <line
+              key={i}
+              x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+              stroke={t.isMajor ? 'rgba(195,172,235,0.35)' : 'rgba(255,255,255,0.14)'}
+              strokeWidth={t.isMajor ? 1 : 0.6}
+            />
+          ))}
+        </motion.g>
+      </motion.g>
+
       {/* Circles — animated path draw-in */}
       {CIRCLES.map((c, i) => (
         <motion.circle
           key={i}
           cx={c.cx} cy={c.cy} r={R}
-          fill="rgba(255,255,255,0.025)"
-          stroke="rgba(255,255,255,0.16)"
-          strokeWidth="0.9"
+          fill="rgba(255,255,255,0.03)"
+          stroke="rgba(255,255,255,0.22)"
+          strokeWidth="1.1"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={inView ? { pathLength: 1, opacity: 1 } : {}}
           transition={{
@@ -63,7 +110,7 @@ export function HeroMark() {
 
       {/* Subtle fill glow at triple-intersection center */}
       <motion.ellipse
-        cx="210" cy="167" rx="62" ry="52"
+        cx={CX} cy={CY} rx="62" ry="52"
         fill="url(#hm-glow)"
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
@@ -72,16 +119,30 @@ export function HeroMark() {
 
       {/* Inner core highlight */}
       <motion.ellipse
-        cx="210" cy="167" rx="28" ry="24"
+        cx={CX} cy={CY} rx="28" ry="24"
         fill="url(#hm-core)"
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 0.8, delay: 1.1 }}
       />
 
+      {/* Center crosshair */}
+      <motion.g
+        stroke="rgba(195,172,235,0.55)"
+        strokeWidth="0.8"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.6, delay: 1.25 }}
+      >
+        <line x1={CX - 10} y1={CY} x2={CX - 4} y2={CY} />
+        <line x1={CX + 4} y1={CY} x2={CX + 10} y2={CY} />
+        <line x1={CX} y1={CY - 10} x2={CX} y2={CY - 4} />
+        <line x1={CX} y1={CY + 4} x2={CX} y2={CY + 10} />
+      </motion.g>
+
       {/* Center dot — subtle pulse */}
       <motion.circle
-        cx="210" cy="167" r="3.5"
+        cx={CX} cy={CY} r="3.5"
         fill="#a78bcb"
         initial={{ opacity: 0 }}
         animate={inView
@@ -102,11 +163,11 @@ export function HeroMark() {
           key={l.text}
           x={l.x} y={l.y}
           textAnchor={l.anchor}
-          fill="rgba(255,255,255,0.44)"
+          fill="rgba(255,255,255,0.5)"
           fontSize="10"
-          fontFamily="'Inter', system-ui, sans-serif"
-          fontWeight="600"
-          letterSpacing="0.14em"
+          fontFamily="'IBM Plex Mono', ui-monospace, monospace"
+          fontWeight="500"
+          letterSpacing="0.16em"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.85 + i * 0.12 }}
@@ -117,14 +178,14 @@ export function HeroMark() {
 
       {/* Thin tick-mark lines from labels to circle top/bottom */}
       {[
-        { x1: 148, y1: 26, x2: 148, y2: 38 },
-        { x1: 272, y1: 26, x2: 272, y2: 38 },
-        { x1: 210, y1: 355, x2: 210, y2: 343 },
+        { x1: 148, y1: 46, x2: 148, y2: 58 },
+        { x1: 272, y1: 46, x2: 272, y2: 58 },
+        { x1: 210, y1: 375, x2: 210, y2: 363 },
       ].map((line, i) => (
         <motion.line
           key={i}
           x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2}
-          stroke="rgba(255,255,255,0.2)"
+          stroke="rgba(255,255,255,0.24)"
           strokeWidth="0.7"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}

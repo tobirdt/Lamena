@@ -3,6 +3,7 @@ import { ScrollManager } from './components/ScrollManager'
 import { privacySections, termsSections } from './data/legal'
 import { HomePage } from './pages/HomePage'
 import { LegalPage } from './pages/LegalPage'
+import { NotFoundPage } from './pages/NotFoundPage'
 import './App.css'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           path="/terms"
           element={<LegalPage eyebrow="Terms" title="Terms & Conditions" sections={termsSections} />}
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   )

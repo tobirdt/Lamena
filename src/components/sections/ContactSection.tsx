@@ -11,7 +11,7 @@ export function ContactSection() {
       <Reveal className="section-heading centered">
         <span className="section-kicker">Contact</span>
         <h2>Start a focused conversation with Lamena.</h2>
-        <p>Send a structured inquiry and the details will be delivered to Lamena for review.</p>
+        <p>Outline your requirement and the right people at Lamena will respond.</p>
       </Reveal>
 
       <div className="contact-layout">
@@ -39,6 +39,17 @@ export function ContactSection() {
             <span>Open location</span>
             <ExternalLink aria-hidden="true" />
           </a>
+
+          <dl className="contact-meta">
+            <div>
+              <dt>Timezone</dt>
+              <dd>GST · UTC+4</dd>
+            </div>
+            <div>
+              <dt>Inquiries</dt>
+              <dd>Handled in confidence</dd>
+            </div>
+          </dl>
         </Reveal>
 
         <Reveal className="form-panel" delay={0.08}>

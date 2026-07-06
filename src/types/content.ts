@@ -1,15 +1,17 @@
 import type { LucideIcon } from 'lucide-react'
 
-export type IconCard = {
-  icon: LucideIcon
+export type ServiceArea = {
   title: string
 }
 
-export type ExpertiseItem = IconCard & {
+export type ExpertiseItem = {
+  title: string
   body: string
 }
 
-export type PortfolioCard = IconCard & {
+export type PortfolioCard = {
+  icon: LucideIcon
+  title: string
   label: string
   body: string
   type: 'security' | 'communication' | 'finance'
@@ -30,5 +32,6 @@ export type ContactFormState = {
   phone: string
   message: string
   consent: boolean
-  website: string
+  /** Honeypot — non-semantic name so browser autofill never touches it */
+  xfield: string
 }

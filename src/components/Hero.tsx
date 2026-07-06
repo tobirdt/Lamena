@@ -1,6 +1,7 @@
-import { ArrowRight, Signal } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { proofPoints } from '../data/content'
 import { EASE_OUT } from '../lib/motion'
 import { HeroMark } from './HeroMark'
 import { Reveal } from './Reveal'
@@ -33,13 +34,12 @@ export function Hero() {
           transition={{ duration: 0.72, ease: EASE_OUT }}
         >
           <motion.div
-            className="eyebrow"
+            className="hero-kicker"
             initial={staticEnter ?? { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.08, ease: EASE_OUT }}
           >
-            <Signal aria-hidden="true" />
-            Security. Safety. Communication.
+            Security · Safety · Communication
           </motion.div>
 
           <motion.picture
@@ -91,12 +91,38 @@ export function Hero() {
               Explore services
             </Link>
           </motion.div>
+
+          <motion.dl
+            className="hero-proof"
+            initial={staticEnter ?? { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.46, ease: EASE_OUT }}
+          >
+            {proofPoints.map((point) => (
+              <div key={point.label}>
+                <dt>{point.label}</dt>
+                <dd>{point.value}</dd>
+              </div>
+            ))}
+          </motion.dl>
         </motion.div>
 
         <Reveal className="hero-panel" delay={0.12}>
           <HeroMark />
         </Reveal>
       </div>
+
+      <motion.div
+        className="hero-scroll-cue-wrap"
+        initial={staticEnter ?? { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.9, ease: EASE_OUT }}
+      >
+        <Link className="hero-scroll-cue" to="/#about" aria-label="Scroll to About section">
+          <span aria-hidden="true">Scroll</span>
+          <i aria-hidden="true" />
+        </Link>
+      </motion.div>
     </section>
   )
 }

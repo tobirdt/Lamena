@@ -1,20 +1,5 @@
-import {
-  BadgeCheck,
-  BarChart3,
-  BriefcaseBusiness,
-  Building2,
-  ClipboardCheck,
-  Gavel,
-  GraduationCap,
-  Handshake,
-  Landmark,
-  RadioTower,
-  ShieldCheck,
-  Target,
-  Truck,
-  UsersRound,
-} from 'lucide-react'
-import type { ExpertiseItem, IconCard, PortfolioCard } from '../types/content'
+import { BriefcaseBusiness, RadioTower, ShieldCheck } from 'lucide-react'
+import type { ExpertiseItem, PortfolioCard, ServiceArea } from '../types/content'
 
 export const navItems = [
   { label: 'About', href: '#about' },
@@ -24,41 +9,38 @@ export const navItems = [
 ] as const
 
 export const proofPoints = [
-  { value: '20+', label: 'Years of applied expertise' },
-  { value: '360°', label: 'Consulting and delivery perspective' },
-  { value: 'Global', label: 'Technology and partner network' },
+  { value: '20+', label: 'Years of expertise' },
+  { value: '360°', label: 'Consulting to delivery' },
+  { value: 'Global', label: 'Partner network' },
 ] as const
 
 export const expertiseItems: ExpertiseItem[] = [
   {
-    icon: BadgeCheck,
     title: 'Security and safety requirements',
     body: 'Extensive experience across governmental, defense and industrial environments with complex technical and regulatory demands.',
   },
   {
-    icon: Handshake,
     title: 'Strategic equipment partnerships',
     body: 'Close collaboration with leading manufacturers enabling reliable project execution, supply and long-term support.',
   },
   {
-    icon: GraduationCap,
     title: 'Training and after-sales support',
     body: 'In-depth operator training and exceptional after-sales service that keeps solutions running at every level.',
   },
 ]
 
-export const mediationAreas: IconCard[] = [
-  { icon: BarChart3, title: 'Market entry and analysis' },
-  { icon: UsersRound, title: 'Business origination' },
-  { icon: Truck, title: 'Product supply and placement' },
-  { icon: ClipboardCheck, title: 'Turn-key projects' },
+export const mediationAreas: ServiceArea[] = [
+  { title: 'Market entry and analysis' },
+  { title: 'Business origination' },
+  { title: 'Product supply and placement' },
+  { title: 'Turn-key projects' },
 ]
 
-export const consultingAreas: IconCard[] = [
-  { icon: Target, title: 'Sales and marketing strategy' },
-  { icon: Gavel, title: 'National and international legal frameworks' },
-  { icon: Building2, title: 'Corporate transformation' },
-  { icon: Landmark, title: 'Finance, controlling, auditing and asset management' },
+export const consultingAreas: ServiceArea[] = [
+  { title: 'Sales and marketing strategy' },
+  { title: 'National and international legal frameworks' },
+  { title: 'Corporate transformation' },
+  { title: 'Finance, controlling, auditing and asset management' },
 ]
 
 export const portfolioCards: PortfolioCard[] = [
