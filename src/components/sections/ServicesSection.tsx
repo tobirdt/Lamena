@@ -18,8 +18,8 @@ function ServiceColumn({ title, items, baseDelay = 0 }: { title: string; items: 
         {items.map((item, index) => (
           <motion.li
             key={item.title}
-            initial={{ opacity: 0, x: -10 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-48px' }}
             transition={{
               duration: 0.4,

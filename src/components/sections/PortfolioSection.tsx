@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import type { ComponentType, RefObject } from 'react'
-import { useInView, useMotionValueEvent, useReducedMotion, useScroll } from 'framer-motion'
+import type { ComponentType } from 'react'
+import { useMotionValueEvent, useReducedMotion, useScroll } from 'framer-motion'
 import { portfolioCards } from '../../data/content'
 import type { PortfolioCard } from '../../types/content'
+import { useEntrance } from '../../lib/useEntrance'
 import { CommunicationVisual } from '../visuals/CommunicationVisual'
 import { FinanceVisual } from '../visuals/FinanceVisual'
 import { SecurityVisual } from '../visuals/SecurityVisual'
@@ -11,24 +12,6 @@ const VISUALS: Record<PortfolioCard['type'], ComponentType> = {
   security: SecurityVisual,
   communication: CommunicationVisual,
   finance: FinanceVisual,
-}
-
-/**
- * Flowing-mode entrance: arm after mount (JS + motion OK only), reveal when
- * in view. Server markup / no-JS / reduced-motion never arm — everything is
- * visible immediately. Inactive while the section is pinned (the pinned
- * choreography drives the same elements from scroll progress instead).
- */
-function useEntrance(active: boolean, ref: RefObject<Element | null>) {
-  const inView = useInView(ref, { once: true, margin: '-72px' })
-  const reduced = useReducedMotion()
-  const [armed, setArmed] = useState(false)
-
-  useEffect(() => {
-    if (active && !reduced) setArmed(true)
-  }, [active, reduced])
-
-  return `${armed ? ' pf-armed' : ''}${inView ? ' pf-inview' : ''}`
 }
 
 function PortfolioCase({

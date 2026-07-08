@@ -657,6 +657,20 @@
   opacity: 0.6;
 }
 
+/* Kicker hairline draws in WITH its heading — Reveal marks .rv/.is-inview;
+   the pinned portfolio heading has its own scroll choreography (no .rv) */
+.rv .section-kicker::before,
+.rv .section-kicker::after {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-reveal) var(--ease-out) 120ms;
+}
+
+.rv.is-inview .section-kicker::before,
+.rv.is-inview .section-kicker::after {
+  transform: scaleX(1);
+}
+
 .section-heading.centered p {
   text-align: center;
 }
@@ -1220,6 +1234,17 @@
   pointer-events: none;
 }
 
+/* Connector draws in WITH the steps (pearls on a string) */
+.operating-steps.pf-armed::before {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--dur-draw) var(--ease-out) 250ms;
+}
+
+.operating-steps.pf-armed.pf-inview::before {
+  transform: scaleY(1);
+}
+
 .operating-card {
   position: relative;
   padding: 24px 24px 24px 76px;
@@ -1603,15 +1628,33 @@
 }
 
 /* ════════════════════════════════════════════════════════
-   FOOTER
+   FOOTER — dark closing band, bookends the hero
    ════════════════════════════════════════════════════════ */
 .site-footer {
+  background: var(--hero-bg);
+  padding: 76px 24px 44px;
+}
+
+.footer-inner {
   display: grid;
   gap: 22px;
-  width: min(calc(100% - 48px), var(--max));
+  width: min(100%, var(--max));
   margin: 0 auto;
-  padding: 34px 0 40px;
-  border-top: 1px solid var(--line);
+}
+
+.footer-signoff {
+  margin: 0 0 22px;
+  color: var(--hero-text);
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.016em;
+  text-wrap: balance;
+}
+
+.footer-signoff span {
+  color: var(--purple-soft);
 }
 
 .footer-main {
@@ -1626,6 +1669,10 @@
   width: 96px;
 }
 
+.footer-brand img {
+  filter: brightness(0) invert(1);
+}
+
 .footer-links {
   display: flex;
   gap: 2px;
@@ -1637,11 +1684,11 @@
   justify-content: space-between;
   gap: 16px;
   padding-top: 18px;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(240, 238, 255, 0.12);
 }
 
 .footer-meta span {
-  color: var(--muted);
+  color: var(--hero-muted);
   font-family: var(--font-mono);
   font-size: 0.68rem;
   font-weight: 500;
@@ -1654,7 +1701,7 @@
   border-radius: 6px;
   font-size: 0.87rem;
   font-weight: 520;
-  color: var(--muted);
+  color: rgba(240, 238, 255, 0.62);
   transition:
     color var(--duration-fast) ease,
     background var(--duration-fast) ease;
@@ -1662,13 +1709,13 @@
 
 .footer-links a:hover,
 .footer-links a:focus-visible {
-  color: var(--purple-deep);
-  background: var(--purple-pale);
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(255, 255, 255, 0.09);
 }
 
 .footer-links a:focus-visible {
   outline: none;
-  box-shadow: inset 0 0 0 2px rgba(78, 31, 162, 0.18);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 
 /* ════════════════════════════════════════════════════════

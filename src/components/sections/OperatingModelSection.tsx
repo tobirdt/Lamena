@@ -1,10 +1,15 @@
 import { motion, useReducedMotion } from 'framer-motion'
+import { useRef } from 'react'
 import { operatingSteps } from '../../data/content'
 import { EASE_OUT } from '../../lib/motion'
+import { useEntrance } from '../../lib/useEntrance'
 import { Reveal } from '../Reveal'
 
 export function OperatingModelSection() {
   const prefersReducedMotion = useReducedMotion()
+  const stepsRef = useRef<HTMLDivElement>(null)
+  // Connector line ("string of pearls") draws in WITH the step blocks
+  const entrance = useEntrance(true, stepsRef, '-60px')
 
   return (
     <section className="operating-section" aria-label="Lamena operating model">
@@ -17,17 +22,17 @@ export function OperatingModelSection() {
         </p>
       </Reveal>
 
-      <div className="operating-steps">
+      <div ref={stepsRef} className={`operating-steps${entrance}`}>
         {operatingSteps.map((step, index) => (
           <motion.div
             className="operating-card"
             key={step.title}
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{
               duration: 0.52,
-              delay: index * 0.08,
+              delay: index * 0.1,
               ease: EASE_OUT,
               ...(prefersReducedMotion ? { duration: 0.001 } : {}),
             }}
