@@ -7,7 +7,9 @@
 .site-shell,
 .legal-shell {
   position: relative;
-  overflow-x: hidden;
+  /* clip, NOT hidden: overflow-x: hidden creates a scroll container and
+     silently breaks position: sticky in the pinned portfolio chapter */
+  overflow-x: clip;
 }
 
 /* ════════════════════════════════════════════════════════
@@ -774,7 +776,7 @@
 }
 
 .expertise-list h3,
-.portfolio-body h3,
+.pf-case-body h3,
 .operating-card h3 {
   text-wrap: balance;
 }
@@ -793,12 +795,6 @@
   color: var(--muted);
   font-size: 0.91rem;
   line-height: 1.6;
-}
-
-@media (hover: none) {
-  .portfolio-card:hover {
-    transform: none;
-  }
 }
 
 /* ════════════════════════════════════════════════════════
@@ -901,39 +897,92 @@
 }
 
 /* ════════════════════════════════════════════════════════
-   PORTFOLIO — photo-first, premium cards
+   PORTFOLIO — dark chapter, scroll-choreographed cases
+   The pin relies on position: sticky — no ancestor of
+   .portfolio-section may create a scroll container
+   (overflow-x: clip on .site-shell is safe; hidden is NOT).
    ════════════════════════════════════════════════════════ */
-.portfolio-section {
-  background:
-    linear-gradient(180deg, var(--bg) 0%, rgba(244, 241, 252, 0.4) 100%);
+/* Double class: outranks the responsive `.section { padding }` overrides
+   further down — the chapter must stay full-bleed at every breakpoint */
+.section.portfolio-section {
+  /* Full-bleed dark chapter — override the .section content-width shell;
+     .portfolio-stage re-applies the content max-width inside */
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  background: var(--hero-bg);
+}
+
+.portfolio-pin {
+  position: relative;
+}
+
+.portfolio-stage {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: var(--section-y) var(--section-x);
+}
+
+/* Light-on-dark heading */
+.portfolio-section .section-kicker {
+  color: #c3aceb;
+}
+
+.portfolio-section .section-heading h2 {
+  color: var(--hero-text);
+}
+
+.portfolio-section .section-heading p {
+  color: var(--hero-muted);
 }
 
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
   margin-top: var(--section-gap);
 }
 
-.portfolio-card {
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  box-shadow: var(--shadow-card);
-  transition: border-color var(--duration-ui) ease;
-}
-
-.portfolio-card:hover {
-  border-color: rgba(111, 77, 146, 0.24);
-}
-
-/* SVG visual area */
-.portfolio-visual {
+/* Case columns — borderless, separated by hairlines that appear WITH content */
+.pf-case {
   position: relative;
-  height: 240px;
+  padding: 6px 26px 0;
+}
+
+.pf-case:first-child {
+  padding-left: 0;
+}
+
+.pf-case:last-child {
+  padding-right: 0;
+}
+
+.pf-case + .pf-case::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: rgba(240, 238, 255, 0.1);
+  transform-origin: top;
+}
+
+.pf-case-index {
+  display: block;
+  color: rgba(195, 172, 235, 0.75);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.portfolio-visual {
+  height: 220px;
+  margin-top: 14px;
   overflow: hidden;
-  background: var(--hero-bg);
+  border: 1px solid rgba(240, 238, 255, 0.08);
+  border-radius: 10px;
+  background: rgba(240, 238, 255, 0.02);
 }
 
 .portfolio-svg {
@@ -942,95 +991,201 @@
   display: block;
 }
 
-/* ─── Portfolio visuals — CSS-var-driven one-shot draw ──
+.pf-case-body {
+  margin-top: 22px;
+}
+
+.pf-case-body h3 {
+  margin: 0;
+  color: var(--hero-text);
+  font-size: var(--text-h3);
+  font-weight: 650;
+  letter-spacing: -0.012em;
+}
+
+.pf-case-body p {
+  margin: 10px 0 0;
+  color: var(--hero-muted);
+  font-size: 0.93rem;
+  line-height: 1.66;
+}
+
+/* ─── Draw plumbing — CSS-var-driven, one-shot, never loops ───
    Default --draw: 1 = fully drawn (no-JS / reduced-motion / mobile get
-   finished drawings). JS arms the card (.pf-armed → --draw: 0), then
-   .pf-inview transitions back to 1 — strokes draw in, annotations fade,
-   staggered per element group via --i. One-shot, never loops.
-   Pinned mode (portfolio chapter) streams --draw from scroll progress
-   instead and disables transitions. */
+   finished drawings). Flowing mode: .pf-armed resets to 0, .pf-inview
+   transitions back to 1. Pinned mode streams --draw-stroke/--draw-fade
+   from scroll progress instead (transitions off, direct coupling). */
 .pf-svg .pf-draw {
   stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--draw, 1));
+  stroke-dashoffset: calc(1 - var(--draw-stroke, var(--draw, 1)));
 }
 
 .pf-svg .pf-fade {
-  opacity: var(--draw, 1);
+  opacity: var(--draw-fade, var(--draw, 1));
 }
 
-.portfolio-visual.pf-armed {
+/* Flowing entrance — armed per case/heading below the pin breakpoint */
+.pf-armed {
   --draw: 0;
 }
 
-.portfolio-visual.pf-armed.pf-inview {
+.pf-armed.pf-inview {
   --draw: 1;
 }
 
-.portfolio-visual.pf-armed .pf-draw {
+.pf-armed .pf-draw {
   transition: stroke-dashoffset var(--dur-draw) var(--ease-out);
   transition-delay: calc(var(--i, 0) * 130ms);
 }
 
-.portfolio-visual.pf-armed .pf-fade {
+.pf-armed .pf-fade {
   transition: opacity var(--dur-reveal) var(--ease-out);
   transition-delay: calc(var(--i, 0) * 130ms + 120ms);
 }
 
-/* Glass tag on photo */
-.portfolio-visual-tag {
-  position: absolute;
-  bottom: 14px;
-  left: 14px;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--hero-bg) 55%, transparent);
-  backdrop-filter: blur(10px);
-  color: rgba(255, 255, 255, 0.85);
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: calc(100% - 28px);
-  text-overflow: ellipsis;
+.pf-case.pf-armed .pf-case-index,
+.pf-case.pf-armed .pf-case-body {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
 }
 
-.portfolio-visual-tag svg {
-  width: 13px;
-  height: 13px;
-  flex-shrink: 0;
+.pf-case.pf-armed .pf-case-index {
+  transform: none;
 }
 
-.portfolio-visual-tag span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.pf-case.pf-armed.pf-inview .pf-case-index,
+.pf-case.pf-armed.pf-inview .pf-case-body {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.portfolio-body {
-  padding: 24px 26px 26px;
+/* Hairline draws in WITH its column, never stands empty ahead of it */
+.pf-case.pf-armed::before {
+  transform: scaleY(0);
+  transition: transform var(--dur-draw) var(--ease-out);
 }
 
-.portfolio-body h3 {
-  margin: 0;
-  color: var(--ink);
-  font-size: 1.18rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
+.pf-case.pf-armed.pf-inview::before {
+  transform: scaleY(1);
 }
 
-.portfolio-body p {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 0.93rem;
-  line-height: 1.66;
+.pf-heading.pf-armed {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+}
+
+.pf-heading.pf-armed.pf-inview {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── Pinned chapter (client-activated, ≥769px, motion OK) ─── */
+.portfolio-section[data-pinned] .portfolio-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  /* clip on the pin layer ONLY — overflow on the section breaks sticky */
+  overflow: clip;
+  display: grid;
+  align-content: center;
+}
+
+.portfolio-section[data-pinned] .portfolio-stage {
+  width: 100%;
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+/* Choreography — one monotonic progress var --pf (0→1); per-element
+   windows via clamp() are monotonic by construction (no mirror-back).
+   Values couple 1:1 to scroll: no transitions, no easing lag. */
+.portfolio-section[data-pinned] .pf-heading {
+  --th: clamp(0, calc(var(--pf, 0) / 0.12), 1);
+  opacity: var(--th);
+  transform: translateY(calc((1 - var(--th)) * 18px));
+  transition: none;
+  will-change: transform, opacity;
+}
+
+.portfolio-section[data-pinned] .pf-case:nth-child(1) {
+  --t: clamp(0, calc((var(--pf, 0) - 0.14) / 0.22), 1);
+}
+
+.portfolio-section[data-pinned] .pf-case:nth-child(2) {
+  --t: clamp(0, calc((var(--pf, 0) - 0.38) / 0.22), 1);
+}
+
+.portfolio-section[data-pinned] .pf-case:nth-child(3) {
+  --t: clamp(0, calc((var(--pf, 0) - 0.62) / 0.22), 1);
+}
+
+.portfolio-section[data-pinned] .pf-case::before {
+  transform: scaleY(var(--t, 0));
+  transition: none;
+}
+
+.portfolio-section[data-pinned] .pf-case-index {
+  opacity: clamp(0, calc(var(--t, 0) / 0.3), 1);
+  transform: none;
+  transition: none;
+}
+
+.portfolio-section[data-pinned] .portfolio-visual {
+  --draw-stroke: clamp(0, calc(var(--t, 0) / 0.7), 1);
+  --draw-fade: clamp(0, calc((var(--t, 0) - 0.45) / 0.55), 1);
+}
+
+.portfolio-section[data-pinned] .pf-svg .pf-draw,
+.portfolio-section[data-pinned] .pf-svg .pf-fade {
+  transition: none;
+}
+
+.portfolio-section[data-pinned] .pf-case-body {
+  --t2: clamp(0, calc((var(--t, 0) - 0.4) / 0.6), 1);
+  opacity: var(--t2);
+  transform: translateY(calc((1 - var(--t2)) * 22px));
+  transition: none;
+  will-change: transform, opacity;
+}
+
+/* Mobile / stacked: horizontal hairlines between cases */
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pf-case {
+    padding: 0;
+  }
+
+  .pf-case + .pf-case {
+    margin-top: 40px;
+    padding-top: 36px;
+  }
+
+  .pf-case + .pf-case::before {
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    width: auto;
+    height: 1px;
+    transform-origin: left;
+  }
+
+  .pf-case.pf-armed::before {
+    transform: scaleX(0);
+  }
+
+  .pf-case.pf-armed.pf-inview::before {
+    transform: scaleX(1);
+  }
 }
 
 /* ════════════════════════════════════════════════════════
@@ -1648,10 +1803,6 @@
 
 /* ── 768px: Tablet ────────────────────────────────────── */
 @media (max-width: 768px) {
-  .portfolio-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .service-columns {
     grid-template-columns: 1fr;
   }
@@ -1838,16 +1989,8 @@
   }
 
   /* Portfolio */
-  .portfolio-grid {
-    grid-template-columns: 1fr;
-  }
-
   .portfolio-visual {
     height: 190px;
-  }
-
-  .portfolio-body {
-    padding: 18px 20px 20px;
   }
 
   /* Operating model */
