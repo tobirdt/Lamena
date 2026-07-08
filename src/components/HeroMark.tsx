@@ -58,33 +58,27 @@ export function HeroMark() {
         </radialGradient>
       </defs>
 
-      {/* Instrument ring — dashed orbit + tick marks, slow rotation */}
+      {/* Instrument ring — dashed orbit + tick marks (static: precision, not spectacle) */}
       <motion.g
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
         transition={{ duration: 1, delay: 1.1 }}
       >
-        <motion.g
-          style={{ transformOrigin: `${CX}px ${CY}px` }}
-          animate={inView && !reduced ? { rotate: 360 } : {}}
-          transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
-        >
-          <circle
-            cx={CX} cy={CY} r={RING}
-            fill="none"
-            stroke="rgba(255,255,255,0.09)"
-            strokeWidth="0.7"
-            strokeDasharray="1 7"
+        <circle
+          cx={CX} cy={CY} r={RING}
+          fill="none"
+          stroke="rgba(255,255,255,0.09)"
+          strokeWidth="0.7"
+          strokeDasharray="1 7"
+        />
+        {TICKS.map((t, i) => (
+          <line
+            key={i}
+            x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+            stroke={t.isMajor ? 'rgba(195,172,235,0.35)' : 'rgba(255,255,255,0.14)'}
+            strokeWidth={t.isMajor ? 1 : 0.6}
           />
-          {TICKS.map((t, i) => (
-            <line
-              key={i}
-              x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
-              stroke={t.isMajor ? 'rgba(195,172,235,0.35)' : 'rgba(255,255,255,0.14)'}
-              strokeWidth={t.isMajor ? 1 : 0.6}
-            />
-          ))}
-        </motion.g>
+        ))}
       </motion.g>
 
       {/* Circles — animated path draw-in */}
@@ -140,21 +134,13 @@ export function HeroMark() {
         <line x1={CX} y1={CY + 4} x2={CX} y2={CY + 10} />
       </motion.g>
 
-      {/* Center dot — subtle pulse */}
+      {/* Center dot — settles to a steady state (no loop) */}
       <motion.circle
         cx={CX} cy={CY} r="3.5"
         fill="#a78bcb"
         initial={{ opacity: 0 }}
-        animate={inView
-          ? { opacity: reduced ? 0.7 : [0, 0.9, 0.55, 0.9] }
-          : { opacity: 0 }
-        }
-        transition={{
-          duration: 2.8,
-          delay: 1.2,
-          repeat: reduced ? 0 : Infinity,
-          ease: 'easeInOut',
-        }}
+        animate={inView ? { opacity: 0.8 } : { opacity: 0 }}
+        transition={{ duration: reduced ? 0.001 : 0.7, delay: 1.2, ease: 'easeOut' }}
       />
 
       {/* Labels — appear after circles */}

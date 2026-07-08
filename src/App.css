@@ -942,6 +942,40 @@
   display: block;
 }
 
+/* ─── Portfolio visuals — CSS-var-driven one-shot draw ──
+   Default --draw: 1 = fully drawn (no-JS / reduced-motion / mobile get
+   finished drawings). JS arms the card (.pf-armed → --draw: 0), then
+   .pf-inview transitions back to 1 — strokes draw in, annotations fade,
+   staggered per element group via --i. One-shot, never loops.
+   Pinned mode (portfolio chapter) streams --draw from scroll progress
+   instead and disables transitions. */
+.pf-svg .pf-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--draw, 1));
+}
+
+.pf-svg .pf-fade {
+  opacity: var(--draw, 1);
+}
+
+.portfolio-visual.pf-armed {
+  --draw: 0;
+}
+
+.portfolio-visual.pf-armed.pf-inview {
+  --draw: 1;
+}
+
+.portfolio-visual.pf-armed .pf-draw {
+  transition: stroke-dashoffset var(--dur-draw) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 130ms);
+}
+
+.portfolio-visual.pf-armed .pf-fade {
+  transition: opacity var(--dur-reveal) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 130ms + 120ms);
+}
+
 /* Glass tag on photo */
 .portfolio-visual-tag {
   position: absolute;

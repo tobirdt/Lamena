@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from 'react'
 import type { ComponentType } from 'react'
+import { useInView, useReducedMotion } from 'framer-motion'
 import { portfolioCards } from '../../data/content'
 import type { PortfolioCard } from '../../types/content'
 import { Reveal } from '../Reveal'
@@ -14,15 +16,24 @@ const VISUALS: Record<PortfolioCard['type'], ComponentType> = {
 
 function PortfolioCardItem({ card, index }: { card: PortfolioCard; index: number }) {
   const Visual = VISUALS[card.type]
+  const visualRef = useRef<HTMLDivElement>(null)
+  const inView = useInView(visualRef, { once: true, margin: '-72px' })
+  const reduced = useReducedMotion()
+
+  // Arm the draw choreography only after mount and only when motion is OK —
+  // server markup / no-JS / reduced-motion keep the finished drawing.
+  const [armed, setArmed] = useState(false)
+  useEffect(() => {
+    if (!reduced) setArmed(true)
+  }, [reduced])
 
   return (
     <Reveal className="portfolio-card" delay={index * 0.08}>
-      <div className="portfolio-visual">
+      <div
+        ref={visualRef}
+        className={`portfolio-visual${armed ? ' pf-armed' : ''}${inView ? ' pf-inview' : ''}`}
+      >
         <Visual />
-        <div className="portfolio-visual-tag">
-          <card.icon aria-hidden="true" />
-          <span>{card.label}</span>
-        </div>
       </div>
       <div className="portfolio-body">
         <h3>{card.title}</h3>

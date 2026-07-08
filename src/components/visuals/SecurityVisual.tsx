@@ -1,184 +1,139 @@
-import { motion, useInView, useReducedMotion } from 'framer-motion'
-import { useRef } from 'react'
+import type { CSSProperties } from 'react'
 
-// Nodes positioned on r=88 circle from center (200, 110)
-const STATUS_NODES = [
-  { angle: -80, id: 'SCA-01', ok: true },
-  { angle: -28, id: 'COM-A1', ok: true },
-  { angle: 32,  id: 'SCA-02', ok: true },
-  { angle: 95,  id: 'COM-B2', ok: false },
-  { angle: 152, id: 'SCA-03', ok: true },
-  { angle: -138, id: 'SEC-04', ok: true },
-]
+/**
+ * Security & safety — ONE circle: the perimeter.
+ * Engineering-plan detail: defended zone with offset ring, radial dimension
+ * leaders, a highlighted arc segment and a radius callout. No telemetry,
+ * no loops — choreography is driven entirely by the CSS var --draw
+ * (see "PORTFOLIO VISUALS" in App.css). Default --draw:1 = fully drawn.
+ */
 
-function nodePos(angle: number, r = 88) {
-  const rad = ((angle - 90) * Math.PI) / 180
-  return { x: 200 + r * Math.cos(rad), y: 110 + r * Math.sin(rad) }
+const CX = 200
+const CY = 110
+const R = 72
+const R_INNER = 58
+
+const point = (deg: number, r: number) => {
+  const a = (deg * Math.PI) / 180
+  return [CX + r * Math.cos(a), CY + r * Math.sin(a)] as const
 }
 
-export function SecurityVisual() {
-  const ref = useRef<SVGSVGElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-20px' })
-  const reduced = useReducedMotion()
+// 4 radial dimension leaders (ring → outside), with tick terminals
+const LEADERS = [45, 135, 225, 315].map((deg) => {
+  const [x1, y1] = point(deg, R + 4)
+  const [x2, y2] = point(deg, R + 18)
+  return { x1, y1, x2, y2 }
+})
 
+// Highlighted arc segment on the main circle
+const [ax1, ay1] = point(-60, R)
+const [ax2, ay2] = point(-10, R)
+
+const i = (n: number) => ({ '--i': n }) as CSSProperties
+
+export function SecurityVisual() {
   return (
     <svg
-      ref={ref}
+      className="portfolio-svg pf-svg"
       viewBox="0 0 400 220"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
-      className="portfolio-svg"
     >
-      <defs>
-        <pattern id="sv-dots" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
-          <circle cx="0.5" cy="0.5" r="0.6" fill="rgba(255,255,255,0.065)" />
-        </pattern>
-        <radialGradient id="sv-glow" cx="50%" cy="50%" r="55%">
-          <stop offset="0%" stopColor="#6f4d92" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#6f4d92" stopOpacity="0" />
-        </radialGradient>
-        <clipPath id="sv-clip">
-          <rect width="400" height="220" />
-        </clipPath>
-        <linearGradient id="sv-sweep" x1="0" y1="0" x2="0" y2="1" gradientTransform="rotate(-15,0.5,0.5)">
-          <stop offset="0%" stopColor="#8b66b8" stopOpacity="0.12" />
-          <stop offset="100%" stopColor="#8b66b8" stopOpacity="0" />
-        </linearGradient>
-      </defs>
+      {/* Registration marks — drawing-sheet corners */}
+      <g className="pf-fade" style={i(0)} stroke="rgba(240,238,255,0.18)" strokeWidth="0.8">
+        {[
+          [52, 36],
+          [348, 36],
+          [52, 184],
+          [348, 184],
+        ].map(([x, y]) => (
+          <g key={`${x}-${y}`}>
+            <line x1={x - 5} y1={y} x2={x + 5} y2={y} />
+            <line x1={x} y1={y - 5} x2={x} y2={y + 5} />
+          </g>
+        ))}
+      </g>
 
-      {/* Background */}
-      <rect width="400" height="220" fill="#0d0b14" />
-      <rect width="400" height="220" fill="url(#sv-dots)" />
-      <ellipse cx="200" cy="110" rx="190" ry="115" fill="url(#sv-glow)" />
-
-      {/* Concentric rings */}
-      {([35, 62, 88] as const).map((r, i) => (
-        <motion.circle
-          key={r}
-          cx="200" cy="110" r={r}
-          fill="none"
-          stroke="#6f4d92"
-          strokeWidth={i === 0 ? 0.9 : 0.55}
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: [0.7 - i * 0.18, 0.38 - i * 0.09, 0.7 - i * 0.18] } : { opacity: 0 }}
-          transition={{ duration: 3.2, delay: 0.2 + i * 0.18, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      ))}
-
-      {/* Rotating scanner beam */}
-      {!reduced && (
-        <motion.g
-          clipPath="url(#sv-clip)"
-          animate={inView ? { rotate: [0, 360] } : {}}
-          transition={{ duration: 5.5, repeat: Infinity, ease: 'linear' }}
-          style={{ transformOrigin: '200px 110px' }}
-        >
-          {/* Cone fill — 70° sweep from 0° to 70° (pointing up) */}
-          <path
-            d="M200,110 L200,22 A88,88 0 0,1 282.7,87.2 Z"
-            fill="url(#sv-sweep)"
-          />
-          {/* Leading edge line */}
-          <line
-            x1="200" y1="110" x2="200" y2="22"
-            stroke="#8b66b8" strokeWidth="0.9" strokeOpacity="0.75"
-          />
-        </motion.g>
-      )}
-
-      {/* Center secure node */}
-      <motion.circle
-        cx="200" cy="110" r="21"
-        fill="rgba(111,77,146,0.15)" stroke="#6f4d92" strokeWidth="0.9"
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.5, delay: 0.15 }}
+      {/* Perimeter — main circle + offset inner ring */}
+      <circle
+        className="pf-draw"
+        style={i(1)}
+        cx={CX} cy={CY} r={R}
+        pathLength={1}
+        fill="none"
+        stroke="rgba(240,238,255,0.30)"
+        strokeWidth="1.1"
       />
-      <motion.g
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      >
-        {/* Lock shackle */}
-        <path
-          d="M195,108 C195,103 205,103 205,108"
-          fill="none" stroke="#b09fd0" strokeWidth="1.3" strokeLinecap="round"
-        />
-        {/* Lock body */}
-        <rect x="192" y="108" width="16" height="11" rx="2" fill="none" stroke="#b09fd0" strokeWidth="1.3" />
-        <circle cx="200" cy="114" r="2" fill="#b09fd0" />
-      </motion.g>
-
-      {/* Status nodes with dashed lines from center */}
-      {STATUS_NODES.map((node, i) => {
-        const { x, y } = nodePos(node.angle)
-        const color = node.ok ? '#4ade80' : '#f59e0b'
-        const isRight = x > 200
-        return (
-          <motion.g
-            key={node.id}
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.35, delay: 0.6 + i * 0.09 }}
-          >
-            <line
-              x1="200" y1="110" x2={x} y2={y}
-              stroke="rgba(111,77,146,0.22)" strokeWidth="0.5" strokeDasharray="3 3"
-            />
-            <circle cx={x} cy={y} r="5.5" fill={color + '18'} stroke={color} strokeWidth="0.8" />
-            <circle cx={x} cy={y} r="2" fill={color} />
-            <text
-              x={isRight ? x + 9 : x - 9}
-              y={y + 1}
-              fill="rgba(255,255,255,0.32)"
-              fontSize="6.5"
-              fontFamily="'IBM Plex Mono', ui-monospace, monospace"
-              textAnchor={isRight ? 'start' : 'end'}
-              dominantBaseline="middle"
-            >
-              {node.id}
-            </text>
-            {/* Blinking dot for warning */}
-            {!node.ok && (
-              <motion.circle
-                cx={x} cy={y} r="5.5"
-                fill="none" stroke={color} strokeWidth="0.8"
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 1.4, repeat: Infinity }}
-              />
-            )}
-          </motion.g>
-        )
-      })}
-
-      {/* Header row */}
-      <text
-        x="14" y="16"
-        fill="rgba(255,255,255,0.28)" fontSize="7.5" fontFamily="'IBM Plex Mono', ui-monospace, monospace" letterSpacing="0.09em"
-      >
-        THREAT ANALYSIS · REALTIME
-      </text>
-      <motion.circle
-        cx="383" cy="12" r="3.5" fill="#4ade80"
-        animate={inView && !reduced ? { fillOpacity: [0.9, 0.3, 0.9] } : {}}
-        transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+      <circle
+        className="pf-draw"
+        style={i(1.6)}
+        cx={CX} cy={CY} r={R_INNER}
+        pathLength={1}
+        fill="none"
+        stroke="rgba(240,238,255,0.14)"
+        strokeWidth="0.8"
+        strokeDasharray="3 4"
       />
-      <text x="376" y="16" fill="rgba(255,255,255,0.28)" fontSize="7" fontFamily="'IBM Plex Mono', ui-monospace, monospace" textAnchor="end">
-        SECURE
-      </text>
 
-      {/* Bottom status bar */}
-      <rect x="0" y="200" width="400" height="20" fill="rgba(10,8,18,0.85)" />
-      <rect x="0" y="200" width="400" height="0.7" fill="rgba(111,77,146,0.22)" />
-      <motion.text
-        x="14" y="213"
-        fill="rgba(255,255,255,0.24)" fontSize="6.5" fontFamily="'IBM Plex Mono', ui-monospace, monospace" letterSpacing="0.08em"
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ delay: 1.4 }}
+      {/* Radial dimension leaders with tick terminals */}
+      <g className="pf-fade" style={i(2)} stroke="rgba(240,238,255,0.26)" strokeWidth="0.8">
+        {LEADERS.map((l, idx) => (
+          <line key={idx} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} />
+        ))}
+      </g>
+
+      {/* Radius line + center crosshair */}
+      <line
+        className="pf-draw"
+        style={i(2.2)}
+        x1={CX} y1={CY}
+        x2={point(155, R)[0]} y2={point(155, R)[1]}
+        pathLength={1}
+        stroke="rgba(240,238,255,0.22)"
+        strokeWidth="0.8"
+      />
+      <g className="pf-fade" style={i(2.6)} stroke="rgba(167,139,203,0.6)" strokeWidth="0.9">
+        <line x1={CX - 9} y1={CY} x2={CX - 3} y2={CY} />
+        <line x1={CX + 3} y1={CY} x2={CX + 9} y2={CY} />
+        <line x1={CX} y1={CY - 9} x2={CX} y2={CY - 3} />
+        <line x1={CX} y1={CY + 3} x2={CX} y2={CY + 9} />
+      </g>
+
+      {/* Highlighted arc segment — the detail under review */}
+      <path
+        className="pf-draw"
+        style={i(2.4)}
+        d={`M ${ax1} ${ay1} A ${R} ${R} 0 0 1 ${ax2} ${ay2}`}
+        pathLength={1}
+        fill="none"
+        stroke="#8b66b8"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+      />
+      {/* Leader from arc to callout */}
+      <path
+        className="pf-draw"
+        style={i(2.8)}
+        d={`M ${point(-40, R + 3)[0]} ${point(-40, R + 3)[1]} L 278 50 L 296 50`}
+        pathLength={1}
+        fill="none"
+        stroke="rgba(167,139,203,0.5)"
+        strokeWidth="0.8"
+      />
+
+      {/* Annotations — drawing callouts, not status text */}
+      <g
+        className="pf-fade"
+        style={i(3)}
+        fill="rgba(240,238,255,0.46)"
+        fontFamily="'IBM Plex Mono', ui-monospace, monospace"
+        fontSize="9.5"
+        letterSpacing="0.14em"
       >
-        5/6 NODES ACTIVE · ZONE STATUS: NOMINAL · PERIMETER: CLEAR
-      </motion.text>
+        <text x={296} y={44} textAnchor="end">PERIMETER</text>
+        <text x={102} y={158}>R 72</text>
+        <text x={100} y={192}>SEC / 01</text>
+      </g>
     </svg>
   )
 }

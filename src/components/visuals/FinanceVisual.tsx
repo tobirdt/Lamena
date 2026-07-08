@@ -1,178 +1,114 @@
-import { motion, useInView, useReducedMotion } from 'framer-motion'
-import { useRef } from 'react'
+import type { CSSProperties } from 'react'
 
-// Line chart data points — gentle upward trend
-const POINTS: [number, number][] = [
-  [34,  166],
-  [82,  155],
-  [128, 144],
-  [174, 136],
-  [220, 125],
-  [268, 113],
-  [316, 106],
-  [366,  92],
-]
+/**
+ * Finance & transformation — THREE circles: the converged system.
+ * Structural summary: a compact venn (sibling of the hero mark, different
+ * proportions), centroid crosshair, hatched triple intersection and indexed
+ * dimension leaders 01/02/03. Completes the 1 → 2 → 3 build across the
+ * portfolio row. Choreography via CSS var --draw (App.css).
+ */
 
-function toPath(pts: [number, number][]) {
-  return pts.map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x},${y}`).join(' ')
-}
+const R = 54
+const C1 = { x: 172, y: 88 }   // 01 — top left
+const C2 = { x: 228, y: 88 }   // 02 — top right
+const C3 = { x: 200, y: 136 }  // 03 — bottom
+const CENTROID = { x: 200, y: 104 }
 
-function toArea(pts: [number, number][]) {
-  return `${toPath(pts)} L${pts[pts.length - 1][0]},190 L${pts[0][0]},190 Z`
-}
+// Hatching for the triple intersection (clipped by all three circles)
+const HATCH = Array.from({ length: 7 }, (_, n) => {
+  const x = 182 + n * 6
+  return { x1: x - 24, y1: 150, x2: x + 24, y2: 62 }
+})
 
-const KPI = [
-  { label: 'Revenue growth', value: '+24%', color: '#4ade80' },
-  { label: 'Efficiency index', value: '+18%', color: '#818cf8' },
-  { label: 'Project delivery', value: '98%',  color: '#a78bcb' },
-]
+const i = (n: number) => ({ '--i': n }) as CSSProperties
 
 export function FinanceVisual() {
-  const ref = useRef<SVGSVGElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-20px' })
-  const reduced = useReducedMotion()
-
   return (
     <svg
-      ref={ref}
+      className="portfolio-svg pf-svg"
       viewBox="0 0 400 220"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
-      className="portfolio-svg"
     >
       <defs>
-        <pattern id="fv-hlines" x="0" y="0" width="400" height="20" patternUnits="userSpaceOnUse">
-          <line x1="0" y1="0" x2="400" y2="0" stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
-        </pattern>
-        <radialGradient id="fv-glow" cx="75%" cy="45%" r="55%">
-          <stop offset="0%" stopColor="#6f4d92" stopOpacity="0.18" />
-          <stop offset="100%" stopColor="#6f4d92" stopOpacity="0" />
-        </radialGradient>
-        <linearGradient id="fv-area" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#6f4d92" stopOpacity="0.22" />
-          <stop offset="100%" stopColor="#6f4d92" stopOpacity="0" />
-        </linearGradient>
-        <clipPath id="fv-chart-clip">
-          <rect x="24" y="68" width="352" height="130" />
-        </clipPath>
+        <clipPath id="fv-c1"><circle cx={C1.x} cy={C1.y} r={R} /></clipPath>
+        <clipPath id="fv-c2"><circle cx={C2.x} cy={C2.y} r={R} /></clipPath>
+        <clipPath id="fv-c3"><circle cx={C3.x} cy={C3.y} r={R} /></clipPath>
       </defs>
 
-      {/* Background */}
-      <rect width="400" height="220" fill="#0d0b14" />
-      <rect x="24" y="68" width="352" height="130" fill="url(#fv-hlines)" />
-      <rect width="400" height="220" fill="url(#fv-glow)" />
+      {/* Registration marks */}
+      <g className="pf-fade" style={i(0)} stroke="rgba(240,238,255,0.18)" strokeWidth="0.8">
+        {[
+          [52, 36],
+          [348, 36],
+          [52, 184],
+          [348, 184],
+        ].map(([x, y]) => (
+          <g key={`${x}-${y}`}>
+            <line x1={x - 5} y1={y} x2={x + 5} y2={y} />
+            <line x1={x} y1={y - 5} x2={x} y2={y + 5} />
+          </g>
+        ))}
+      </g>
 
-      {/* KPI tiles */}
-      {KPI.map((kpi, i) => {
-        const tileW = 110
-        const tileX = 14 + i * (tileW + 10)
-        return (
-          <motion.g
-            key={kpi.label}
-            initial={{ opacity: 0, y: 6 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.15 + i * 0.1 }}
-          >
-            <rect
-              x={tileX} y="14" width={tileW} height="46"
-              rx="4" fill="rgba(111,77,146,0.1)" stroke="rgba(111,77,146,0.2)" strokeWidth="0.6"
-            />
-            <text
-              x={tileX + 10} y="30"
-              fill="rgba(255,255,255,0.28)" fontSize="6.5" fontFamily="'IBM Plex Mono', ui-monospace, monospace" letterSpacing="0.07em"
-            >
-              {kpi.label.toUpperCase()}
-            </text>
-            <text
-              x={tileX + 10} y="49"
-              fill={kpi.color} fontSize="16" fontFamily="'IBM Plex Mono', ui-monospace, monospace" fontWeight="600"
-            >
-              {kpi.value}
-            </text>
-          </motion.g>
-        )
-      })}
-
-      {/* Chart baseline */}
-      <line x1="24" y1="190" x2="376" y2="190" stroke="rgba(111,77,146,0.22)" strokeWidth="0.6" />
-
-      {/* Y-axis tick lines */}
-      {[166, 146, 126, 106].map((y, i) => (
-        <line key={i} x1="24" y1={y} x2="376" y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
-      ))}
-
-      {/* Area fill — animated via clipPath width trick */}
-      <motion.path
-        d={toArea(POINTS)}
-        fill="url(#fv-area)"
-        clipPath="url(#fv-chart-clip)"
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.8, delay: 0.6 }}
-      />
-
-      {/* Line — animated pathLength draw-in */}
-      <motion.path
-        d={toPath(POINTS)}
-        fill="none"
-        stroke="#8b66b8"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={inView ? { pathLength: 1, opacity: 1 } : {}}
-        transition={{ duration: reduced ? 0.001 : 1.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      />
-
-      {/* Data point dots */}
-      {POINTS.map(([x, y], i) => (
-        <motion.circle
-          key={i}
-          cx={x} cy={y} r="3"
-          fill="#0d0b14" stroke="#8b66b8" strokeWidth="1.5"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.25, delay: 0.4 + 0.18 * i }}
-          style={{ transformOrigin: `${x}px ${y}px` }}
+      {/* The three system circles */}
+      {[C1, C2, C3].map((c, idx) => (
+        <circle
+          key={idx}
+          className="pf-draw"
+          style={i(1 + idx * 0.4)}
+          cx={c.x} cy={c.y} r={R}
+          pathLength={1}
+          fill="none"
+          stroke="rgba(240,238,255,0.30)"
+          strokeWidth="1.1"
         />
       ))}
 
-      {/* Latest value callout */}
-      <motion.g
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ delay: 1.8 }}
+      {/* Triple intersection — hatched (clip 1 ∩ clip 2 ∩ clip 3) */}
+      <g clipPath="url(#fv-c1)">
+        <g clipPath="url(#fv-c2)">
+          <g className="pf-fade" style={i(2.4)} clipPath="url(#fv-c3)">
+            <rect x={160} y={60} width={80} height={92} fill="rgba(139,102,184,0.1)" />
+            <g stroke="rgba(167,139,203,0.45)" strokeWidth="0.7">
+              {HATCH.map((h, idx) => (
+                <line key={idx} x1={h.x1} y1={h.y1} x2={h.x2} y2={h.y2} />
+              ))}
+            </g>
+          </g>
+        </g>
+      </g>
+
+      {/* Centroid crosshair */}
+      <g className="pf-fade" style={i(2.6)} stroke="rgba(167,139,203,0.6)" strokeWidth="0.9">
+        <line x1={CENTROID.x - 9} y1={CENTROID.y} x2={CENTROID.x - 3} y2={CENTROID.y} />
+        <line x1={CENTROID.x + 3} y1={CENTROID.y} x2={CENTROID.x + 9} y2={CENTROID.y} />
+        <line x1={CENTROID.x} y1={CENTROID.y - 9} x2={CENTROID.x} y2={CENTROID.y - 3} />
+        <line x1={CENTROID.x} y1={CENTROID.y + 3} x2={CENTROID.x} y2={CENTROID.y + 9} />
+      </g>
+
+      {/* Labeled circle centers — survey-point convention (stays inside
+          the slice-crop safe zone on narrow cards) */}
+      <g className="pf-fade" style={i(2.2)} fill="rgba(240,238,255,0.4)">
+        <circle cx={C1.x} cy={C1.y} r="1.6" />
+        <circle cx={C2.x} cy={C2.y} r="1.6" />
+        <circle cx={C3.x} cy={C3.y} r="1.6" />
+      </g>
+
+      {/* Annotations */}
+      <g
+        className="pf-fade"
+        style={i(3)}
+        fill="rgba(240,238,255,0.46)"
+        fontFamily="'IBM Plex Mono', ui-monospace, monospace"
+        fontSize="9.5"
+        letterSpacing="0.14em"
       >
-        <rect x="334" y="78" width="54" height="22" rx="3" fill="rgba(111,77,146,0.25)" stroke="rgba(139,102,184,0.5)" strokeWidth="0.6" />
-        <text x="361" y="91" fill="#b09fd0" fontSize="9" fontFamily="'IBM Plex Mono', ui-monospace, monospace" textAnchor="middle" fontWeight="600">
-          +24.3%
-        </text>
-        {/* Connector to last point */}
-        <line x1="366" y1="92" x2="361" y2="99" stroke="rgba(139,102,184,0.4)" strokeWidth="0.6" />
-      </motion.g>
-
-      {/* X-axis labels */}
-      {['Q1', 'Q2', 'Q3', 'Q4'].map((q, i) => (
-        <text
-          key={q}
-          x={34 + i * 88} y="204"
-          fill="rgba(255,255,255,0.2)" fontSize="7" fontFamily="'IBM Plex Mono', ui-monospace, monospace" textAnchor="middle"
-        >
-          {q}
-        </text>
-      ))}
-
-      {/* Header */}
-      <text
-        x="360" y="16"
-        fill="rgba(255,255,255,0.28)" fontSize="7.5" fontFamily="'IBM Plex Mono', ui-monospace, monospace" letterSpacing="0.09em"
-        textAnchor="end"
-      >
-        PERFORMANCE METRICS
-      </text>
-
-      {/* Bottom bar */}
-      <rect x="0" y="210" width="400" height="10" fill="rgba(10,8,18,0.85)" />
+        <text x={C1.x - 26} y={C1.y - 6}>01</text>
+        <text x={C2.x + 10} y={C2.y - 6}>02</text>
+        <text x={C3.x + 8} y={C3.y + 14}>03</text>
+        <text x={100} y={192}>FIN / 03</text>
+      </g>
     </svg>
   )
 }
