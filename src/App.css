@@ -459,10 +459,11 @@
 .hero-copy h1 {
   margin: 0;
   color: var(--hero-text);
-  font-size: 3rem;
-  font-weight: 780;
-  line-height: 1.06;
-  letter-spacing: -0.03em;
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.018em;
 }
 
 .hero-copy p {
@@ -686,14 +687,15 @@
 .legal-panel h1 {
   margin: 0;
   color: var(--ink);
-  font-weight: 760;
-  line-height: 1.04;
-  letter-spacing: -0.026em;
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.016em;
 }
 
 .section-heading h2 {
   margin-top: 14px;
-  font-size: 2.6rem;
 }
 
 .section-heading p {
@@ -1507,8 +1509,6 @@
 
 .legal-panel h1 {
   margin-top: 14px;
-  font-size: 2.9rem;
-  letter-spacing: -0.026em;
 }
 
 .legal-panel > p {
@@ -1583,9 +1583,6 @@
     max-width: 680px;
   }
 
-  .hero-copy h1 {
-    font-size: 2.6rem;
-  }
 
   /* Constrain mark when stacked below text */
   .hero-panel {
@@ -1613,9 +1610,6 @@
     grid-template-columns: 1fr;
   }
 
-  .section-heading h2 {
-    font-size: 2.25rem;
-  }
 }
 
 /* ── 768px: Tablet ────────────────────────────────────── */
@@ -1628,15 +1622,6 @@
     grid-template-columns: 1fr;
   }
 
-  .hero-copy h1 {
-    font-size: 2.3rem;
-  }
-
-  /* Section headings smaller than hero h1 — preserve hierarchy */
-  .section-heading h2,
-  .legal-panel h1 {
-    font-size: 2rem;
-  }
 
   .section,
   .operating-section {
@@ -1709,10 +1694,6 @@
     margin: 18px 0 16px;
   }
 
-  .hero-copy h1 {
-    font-size: 1.95rem;
-    letter-spacing: -0.02em;
-  }
 
   .hero-copy p {
     font-size: 0.97rem;
@@ -1763,10 +1744,6 @@
     padding: 110px 16px 56px;
   }
 
-  .section-heading h2,
-  .legal-panel h1 {
-    font-size: 1.75rem;
-  }
 
   .section-heading p {
     font-size: 0.97rem;
@@ -1879,13 +1856,6 @@
 
 /* ── 400px: Very small phones ─────────────────────────── */
 @media (max-width: 400px) {
-  .hero-copy h1 {
-    font-size: 1.7rem;
-  }
-
-  .section-heading h2 {
-    font-size: 1.6rem;
-  }
 
   .portfolio-visual {
     height: 170px;
