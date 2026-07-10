@@ -1,4 +1,4 @@
-import { AlertCircle, ArrowLeft, CheckCircle2, Mail, Send } from 'lucide-react'
+import { AlertCircle, ArrowLeft, CheckCircle2, Send } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -71,10 +71,7 @@ export function ContactForm() {
         <h3 ref={successHeadingRef} tabIndex={-1}>
           Inquiry sent.
         </h3>
-        <p>
-          Thank you — your message has been delivered and the right person at Lamena
-          will follow up.
-        </p>
+        <p>Thank you — the right person at Lamena will follow up.</p>
         <button className="secondary-button secondary-button--surface" type="button" onClick={() => setStatus('idle')}>
           <ArrowLeft aria-hidden="true" />
           Send another inquiry
@@ -86,11 +83,8 @@ export function ContactForm() {
   return (
     <form className="contact-form" onSubmit={handleSubmit}>
       <div className="form-heading">
-        <Mail aria-hidden="true" />
-        <div>
-          <span>Website inquiry</span>
-          <h3>Tell us about your project.</h3>
-        </div>
+        <span>Website inquiry</span>
+        <h3>Tell us about your project.</h3>
       </div>
 
       <div className="form-grid">
@@ -126,7 +120,7 @@ export function ContactForm() {
 
       <label>
         Message
-        <textarea name="message" value={form.message} onChange={updateField} rows={5} required />
+        <textarea name="message" value={form.message} onChange={updateField} rows={4} required />
       </label>
 
       <label className="consent-row">

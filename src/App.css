@@ -434,14 +434,8 @@
   opacity: 0.55;
 }
 
-.hero-logo {
-  width: 290px;
-  margin: 36px 0 26px;
-  filter: brightness(0) invert(1);
-}
-
 .hero-copy h1 {
-  margin: 0;
+  margin: 32px 0 0;
   color: var(--hero-text);
   font-family: var(--font-display);
   font-size: var(--text-display);
@@ -452,7 +446,7 @@
 
 .hero-copy p {
   max-width: 540px;
-  margin-top: 22px;
+  margin-top: 24px;
   color: var(--hero-muted);
   font-size: 1.05rem;
   line-height: 1.74;
@@ -461,42 +455,28 @@
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 36px;
+  align-items: center;
+  gap: 28px;
+  margin-top: 40px;
 }
 
-/* Proof baseline — real credentials as design element */
-.hero-proof {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  justify-content: start;
-  gap: 12px 48px;
-  margin: 44px 0 0;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+/* Quiet secondary — underlined text link, not a second button */
+.hero-text-link {
+  color: rgba(240, 238, 255, 0.72);
+  font-size: 0.9rem;
+  font-weight: 560;
+  letter-spacing: 0.01em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(240, 238, 255, 0.28);
+  transition:
+    color var(--duration-fast) ease,
+    text-decoration-color var(--duration-fast) ease;
 }
 
-.hero-proof > div {
-  display: grid;
-  gap: 5px;
-}
-
-.hero-proof dt {
-  order: 2;
-  margin: 0;
-  color: var(--hero-muted);
-  font-size: 0.78rem;
-  line-height: 1.4;
-}
-
-.hero-proof dd {
-  order: 1;
-  margin: 0;
-  color: rgba(195, 172, 235, 0.92);
-  font-family: var(--font-mono);
-  font-size: 1.06rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+.hero-text-link:hover {
+  color: rgba(240, 238, 255, 0.95);
+  text-decoration-color: rgba(240, 238, 255, 0.6);
 }
 
 .hero-panel {
@@ -504,47 +484,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* Scroll cue — thin line + mono label at hero base */
-.hero-scroll-cue-wrap {
-  position: absolute;
-  bottom: 22px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.hero-scroll-cue {
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  color: rgba(240, 238, 255, 0.58);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  transition: color var(--duration-fast) ease;
-}
-
-.hero-scroll-cue:hover {
-  color: rgba(240, 238, 255, 0.75);
-}
-
-.hero-scroll-cue i {
-  display: block;
-  width: 1px;
-  height: 26px;
-  background: linear-gradient(180deg, rgba(240, 238, 255, 0.5), transparent);
-  animation: scroll-cue-drop 2.4s var(--ease-in-out) infinite;
-  transform-origin: top;
-}
-
-@keyframes scroll-cue-drop {
-  0% { transform: scaleY(0); opacity: 0; }
-  35% { transform: scaleY(1); opacity: 1; }
-  70%, 100% { transform: scaleY(1) translateY(8px); opacity: 0; }
 }
 
 /* ─── Hero Mark — three-pillar ring composition ──────── */
@@ -637,20 +576,6 @@
   background: currentColor;
   flex-shrink: 0;
   opacity: 0.6;
-}
-
-/* Kicker hairline draws in WITH its heading — Reveal marks .rv/.is-inview;
-   the pinned portfolio heading has its own scroll choreography (no .rv) */
-.rv .section-kicker::before,
-.rv .section-kicker::after {
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--dur-reveal) var(--ease-out) 120ms;
-}
-
-.rv.is-inview .section-kicker::before,
-.rv.is-inview .section-kicker::after {
-  transform: scaleX(1);
 }
 
 .section-heading.centered p {
@@ -893,10 +818,7 @@
 }
 
 /* ════════════════════════════════════════════════════════
-   PORTFOLIO — dark chapter, scroll-choreographed cases
-   The pin relies on position: sticky — no ancestor of
-   .portfolio-section may create a scroll container
-   (overflow-x: clip on .site-shell is safe; hidden is NOT).
+   PORTFOLIO — dark chapter, calm three-case grid
    ════════════════════════════════════════════════════════ */
 /* Double class: outranks the responsive `.section { padding }` overrides
    further down — the chapter must stay full-bleed at every breakpoint */
@@ -907,10 +829,6 @@
   max-width: none;
   padding: 0;
   background: var(--hero-bg);
-}
-
-.portfolio-pin {
-  position: relative;
 }
 
 .portfolio-stage {
@@ -1006,148 +924,14 @@
   line-height: 1.66;
 }
 
-/* ─── Draw plumbing — CSS-var-driven, one-shot, never loops ───
-   Default --draw: 1 = fully drawn (no-JS / reduced-motion / mobile get
-   finished drawings). Flowing mode: .pf-armed resets to 0, .pf-inview
-   transitions back to 1. Pinned mode streams --draw-stroke/--draw-fade
-   from scroll progress instead (transitions off, direct coupling). */
+/* SVG drawings render finished — no draw-in choreography */
 .pf-svg .pf-draw {
   stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--draw-stroke, var(--draw, 1)));
+  stroke-dashoffset: 0;
 }
 
 .pf-svg .pf-fade {
-  opacity: var(--draw-fade, var(--draw, 1));
-}
-
-/* Flowing entrance — armed per case/heading below the pin breakpoint */
-.pf-armed {
-  --draw: 0;
-}
-
-.pf-armed.pf-inview {
-  --draw: 1;
-}
-
-.pf-armed .pf-draw {
-  transition: stroke-dashoffset var(--dur-draw) var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 130ms);
-}
-
-.pf-armed .pf-fade {
-  transition: opacity var(--dur-reveal) var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 130ms + 120ms);
-}
-
-.pf-case.pf-armed .pf-case-index,
-.pf-case.pf-armed .pf-case-body {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity var(--dur-reveal) var(--ease-out),
-    transform var(--dur-reveal) var(--ease-out);
-}
-
-.pf-case.pf-armed .pf-case-index {
-  transform: none;
-}
-
-.pf-case.pf-armed.pf-inview .pf-case-index,
-.pf-case.pf-armed.pf-inview .pf-case-body {
   opacity: 1;
-  transform: translateY(0);
-}
-
-/* Hairline draws in WITH its column, never stands empty ahead of it */
-.pf-case.pf-armed::before {
-  transform: scaleY(0);
-  transition: transform var(--dur-draw) var(--ease-out);
-}
-
-.pf-case.pf-armed.pf-inview::before {
-  transform: scaleY(1);
-}
-
-.pf-heading.pf-armed {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity var(--dur-reveal) var(--ease-out),
-    transform var(--dur-reveal) var(--ease-out);
-}
-
-.pf-heading.pf-armed.pf-inview {
-  opacity: 1;
-  transform: none;
-}
-
-/* ─── Pinned chapter (client-activated, ≥769px, motion OK) ─── */
-.portfolio-section[data-pinned] .portfolio-pin {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  /* clip on the pin layer ONLY — overflow on the section breaks sticky */
-  overflow: clip;
-  display: grid;
-  align-content: center;
-}
-
-.portfolio-section[data-pinned] .portfolio-stage {
-  width: 100%;
-  padding-top: 32px;
-  padding-bottom: 32px;
-}
-
-/* Choreography — one monotonic progress var --pf (0→1); per-element
-   windows via clamp() are monotonic by construction (no mirror-back).
-   Values couple 1:1 to scroll: no transitions, no easing lag. */
-.portfolio-section[data-pinned] .pf-heading {
-  --th: clamp(0, calc(var(--pf, 0) / 0.12), 1);
-  opacity: var(--th);
-  transform: translateY(calc((1 - var(--th)) * 18px));
-  transition: none;
-  will-change: transform, opacity;
-}
-
-.portfolio-section[data-pinned] .pf-case:nth-child(1) {
-  --t: clamp(0, calc((var(--pf, 0) - 0.14) / 0.22), 1);
-}
-
-.portfolio-section[data-pinned] .pf-case:nth-child(2) {
-  --t: clamp(0, calc((var(--pf, 0) - 0.38) / 0.22), 1);
-}
-
-.portfolio-section[data-pinned] .pf-case:nth-child(3) {
-  --t: clamp(0, calc((var(--pf, 0) - 0.62) / 0.22), 1);
-}
-
-.portfolio-section[data-pinned] .pf-case::before {
-  transform: scaleY(var(--t, 0));
-  transition: none;
-}
-
-.portfolio-section[data-pinned] .pf-case-index {
-  opacity: clamp(0, calc(var(--t, 0) / 0.3), 1);
-  transform: none;
-  transition: none;
-}
-
-.portfolio-section[data-pinned] .portfolio-visual {
-  --draw-stroke: clamp(0, calc(var(--t, 0) / 0.7), 1);
-  --draw-fade: clamp(0, calc((var(--t, 0) - 0.45) / 0.55), 1);
-}
-
-.portfolio-section[data-pinned] .pf-svg .pf-draw,
-.portfolio-section[data-pinned] .pf-svg .pf-fade {
-  transition: none;
-}
-
-.portfolio-section[data-pinned] .pf-case-body {
-  --t2: clamp(0, calc((var(--t, 0) - 0.4) / 0.6), 1);
-  opacity: var(--t2);
-  transform: translateY(calc((1 - var(--t2)) * 22px));
-  transition: none;
-  will-change: transform, opacity;
 }
 
 /* Mobile / stacked: horizontal hairlines between cases */
@@ -1173,14 +957,6 @@
     width: auto;
     height: 1px;
     transform-origin: left;
-  }
-
-  .pf-case.pf-armed::before {
-    transform: scaleX(0);
-  }
-
-  .pf-case.pf-armed.pf-inview::before {
-    transform: scaleX(1);
   }
 }
 
@@ -1214,17 +990,6 @@
     rgba(111, 77, 146, 0.08) 100%
   );
   pointer-events: none;
-}
-
-/* Connector draws in WITH the steps (pearls on a string) */
-.operating-steps.pf-armed::before {
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform var(--dur-draw) var(--ease-out) 250ms;
-}
-
-.operating-steps.pf-armed.pf-inview::before {
-  transform: scaleY(1);
 }
 
 .operating-card {
@@ -1272,12 +1037,13 @@
   padding-top: 80px;
 }
 
+/* Card and form stretch to the SAME height; the card distributes its
+   content across that height so neither column trails empty space */
 .contact-layout {
   display: grid;
   grid-template-columns: minmax(290px, 0.72fr) minmax(0, 1.28fr);
-  align-items: start;
   gap: 18px;
-  margin-top: var(--section-gap);
+  margin-top: 40px;
 }
 
 .contact-card,
@@ -1290,9 +1056,9 @@
 
 .contact-card {
   display: grid;
-  align-content: start;
-  gap: 22px;
-  padding: 32px;
+  align-content: space-between;
+  gap: 18px;
+  padding: 28px 32px;
 }
 
 .contact-card picture {
@@ -1385,7 +1151,7 @@
 }
 
 .form-panel {
-  padding: 32px;
+  padding: 26px 32px;
 }
 
 /* Success panel — replaces the form after submission */
@@ -1423,24 +1189,11 @@
 
 .contact-form {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 }
 
 .form-heading {
-  display: flex;
-  gap: 16px;
-  align-items: start;
   margin-bottom: 8px;
-}
-
-.form-heading > svg {
-  width: 42px;
-  height: 42px;
-  padding: 10px;
-  border-radius: 8px;
-  color: var(--purple-deep);
-  background: var(--purple-pale);
-  flex-shrink: 0;
 }
 
 .form-heading span {
@@ -1454,7 +1207,7 @@
 }
 
 .form-heading h3 {
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   color: var(--ink);
   font-size: 1.25rem;
   font-weight: 700;
@@ -1524,7 +1277,7 @@
 
 .contact-form textarea {
   resize: vertical;
-  min-height: 116px;
+  min-height: 96px;
 }
 
 .consent-row {
@@ -1864,11 +1617,6 @@
     display: none;
   }
 
-  /* Cue collides with stacked content on phones */
-  .hero-scroll-cue-wrap {
-    display: none;
-  }
-
   .footer-main {
     flex-direction: column;
     align-items: flex-start;
@@ -1910,11 +1658,9 @@
     padding: 88px 20px 36px;
   }
 
-  .hero-logo {
-    width: 190px;
-    margin: 18px 0 16px;
+  .hero-copy h1 {
+    margin-top: 24px;
   }
-
 
   .hero-copy p {
     font-size: 0.97rem;
@@ -1925,31 +1671,21 @@
     font-size: 0.65rem;
   }
 
-  .hero-proof {
-    gap: 10px 28px;
-    margin-top: 32px;
-    padding-top: 20px;
-  }
-
-  .hero-proof dd {
-    font-size: 0.95rem;
-  }
-
-  .hero-proof dt {
-    font-size: 0.74rem;
-  }
-
   .hero-actions {
     flex-direction: column;
+    align-items: stretch;
     width: 100%;
-    gap: 10px;
+    gap: 18px;
     margin-top: 28px;
   }
 
-  .hero-actions .primary-button,
-  .hero-actions .secondary-button {
+  .hero-actions .primary-button {
     width: 100%;
     justify-content: center;
+  }
+
+  .hero-text-link {
+    text-align: center;
   }
 
   .section,

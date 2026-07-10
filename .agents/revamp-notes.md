@@ -10,9 +10,11 @@ asymmetrisch statt uniform zentriert.
 - **Mono-Akzent**: Kicker, Indizes (01/02/…), Meta-Zeilen, Status-Labels nutzen
   `var(--font-mono)` (IBM Plex Mono 400/500/600 via Google Fonts), 0.62–0.78rem,
   letter-spacing 0.04–0.14em, uppercase. Keine neuen Icon-Kachel-Karten einführen.
-- **Motion-System**: Micro 150ms · UI 220ms · Reveals 450ms/14px, `EASE_OUT` aus
-  `src/lib/motion.ts` (synchron mit `--ease-out` in `src/index.css`).
-  Keine Hover-Transforms auf nicht-interaktiven Elementen.
+- **Motion-System (Minimalismus-Pass Juli 2026)**: EIN Reveal (Fade-up 450ms/10px,
+  `EASE_OUT`) pro Sektions-Block — keine Element-Kaskaden, keine Draw-in-Effekte,
+  keine Loops, kein Scroll-Pinning. Micro 150ms · UI 220ms für Zustandswechsel.
+  Keine Hover-Transforms auf nicht-interaktiven Elementen. SVG-Visuals rendern
+  als fertige statische Zeichnungen (pf-draw/pf-fade sind fest auf „gezeichnet").
 - **Hero-Pattern**: nutzt `lamena-muster-plain.*` (nahtlos). Das Wordmark-Muster
   `lamena-muster.*` hat schwarze Ränder → bandet beim Tiling, nicht für
   `background-repeat` verwenden.

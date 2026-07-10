@@ -1,25 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 
-/** Pinned sections land at the REVEALED state, not the empty pin start. */
-const PIN_LANDING = 0.9
-
-/** Settle window for deep links: font swap, pin-height commit and late
- *  images shift layout AFTER the first scroll — re-apply until stable. */
-const SETTLE_STEPS_MS = [0, 150, 350, 600, 850]
+/** Settle window for deep links: the display-font swap can shift layout
+ *  after the first scroll — re-apply once until stable. */
+const SETTLE_STEPS_MS = [0, 350]
 
 function applyHashScroll(targetId: string, behavior: ScrollBehavior) {
-  const el = document.getElementById(targetId)
-  if (!el) return
-  if (el.hasAttribute('data-pinned')) {
-    const top = el.getBoundingClientRect().top + window.scrollY
-    window.scrollTo({
-      top: top + (el.offsetHeight - window.innerHeight) * PIN_LANDING,
-      behavior,
-    })
-  } else {
-    el.scrollIntoView({ behavior, block: 'start' })
-  }
+  document.getElementById(targetId)?.scrollIntoView({ behavior, block: 'start' })
 }
 
 export function ScrollManager() {

@@ -10,8 +10,7 @@ export function ContactSection() {
     <section className="section contact-section" id="contact">
       <Reveal className="section-heading centered">
         <span className="section-kicker">Contact</span>
-        <h2>Start a focused conversation with Lamena.</h2>
-        <p>Outline your requirement and the right people at Lamena will respond.</p>
+        <h2>Start a focused conversation.</h2>
       </Reveal>
 
       <div className="contact-layout">

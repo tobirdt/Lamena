@@ -7,24 +7,18 @@ export const navItems = [
   { label: 'Contact', href: '#contact' },
 ] as const
 
-export const proofPoints = [
-  { value: '20+', label: 'Years of expertise' },
-  { value: '360°', label: 'Consulting to delivery' },
-  { value: 'Global', label: 'Partner network' },
-] as const
-
 export const expertiseItems: ExpertiseItem[] = [
   {
     title: 'Security and safety requirements',
-    body: 'Extensive experience across governmental, defense and industrial environments with complex technical and regulatory demands.',
+    body: 'Governmental, defense and industrial environments with complex technical and regulatory demands.',
   },
   {
     title: 'Strategic equipment partnerships',
-    body: 'Close collaboration with leading manufacturers enabling reliable project execution, supply and long-term support.',
+    body: 'Close collaboration with leading manufacturers for reliable execution, supply and support.',
   },
   {
     title: 'Training and after-sales support',
-    body: 'In-depth operator training and exceptional after-sales service that keeps solutions running at every level.',
+    body: 'Operator training and after-sales service that keep solutions running at every level.',
   },
 ]
 
@@ -45,25 +39,25 @@ export const consultingAreas: ServiceArea[] = [
 export const portfolioCards: PortfolioCard[] = [
   {
     title: 'Security & safety',
-    body: 'Engineering support and advisory for governmental authorities, the defense industry and organizations operating in sensitive or technically demanding environments.',
+    body: 'Engineering support and advisory for governmental authorities, defense and organizations in sensitive environments.',
     type: 'security',
   },
   {
     title: 'Communication industries',
-    body: 'Consulting and mediation for communication service providers, regulatory authorities, manufacturers and international organizations seeking product selection, placement and project implementation.',
+    body: 'Consulting and mediation for service providers, regulators and manufacturers — from product selection to implementation.',
     type: 'communication',
   },
   {
     title: 'Finance & transformation',
-    body: 'Finance, controlling, auditing and asset management advisory for companies navigating growth, restructuring, legal frameworks and international compliance.',
+    body: 'Finance, controlling, auditing and asset management advisory for companies navigating growth and compliance.',
     type: 'finance',
   },
 ]
 
 export const operatingSteps = [
-  { title: 'Understand', body: 'Client requirements, regulatory environments, market signals and technical constraints are mapped before any solution is proposed.' },
-  { title: 'Connect', body: 'The right manufacturers, legal specialists, technical engineers and commercial partners are aligned and mobilized around the project.' },
-  { title: 'Deliver', body: 'Turnkey implementation, hands-on operator training and after-sales service ensure the solution stays operational at every level.' },
+  { title: 'Understand', body: 'Requirements, regulatory environments and technical constraints are mapped first.' },
+  { title: 'Connect', body: 'The right manufacturers, specialists and partners are mobilized around the project.' },
+  { title: 'Deliver', body: 'Turnkey implementation, operator training and after-sales service keep it operational.' },
 ] as const
 
 export const MAP_URL =
