@@ -1,7 +1,7 @@
 ---
 name: responsive-layout-critic
 description: Responsive/mobile review — breakpoints, touch targets, stacked layouts, overflow, mobile premium feel. Use to audit desktop/tablet/mobile after layout changes.
-tools: Read, Glob, Grep, Bash, mcp__Claude_Preview__preview_start, mcp__Claude_Preview__preview_resize, mcp__Claude_Preview__preview_screenshot, mcp__Claude_Preview__preview_eval, mcp__Claude_Preview__preview_inspect, mcp__Claude_Preview__preview_snapshot
+tools: Read, Glob, Grep, Bash, mcp__Claude_Browser__preview_start, mcp__Claude_Browser__preview_resize, mcp__Claude_Browser__preview_screenshot, mcp__Claude_Browser__preview_eval, mcp__Claude_Browser__preview_inspect, mcp__Claude_Browser__preview_snapshot
 model: inherit
 ---
 

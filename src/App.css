@@ -169,24 +169,6 @@
   transition-duration: 80ms;
 }
 
-/* Shimmer sweep on hover */
-.header-cta::after,
-.primary-button::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  left: -100%;
-  width: 55%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-  transition: left 0.5s ease;
-  pointer-events: none;
-}
-
-.header-cta:hover::after,
-.primary-button:hover::after {
-  left: 145%;
-}
-
 /* header CTA: ghost-white on dark, dark solid on scrolled */
 .header-cta {
   padding: 0 18px;
@@ -1896,6 +1878,13 @@
   .footer-links {
     flex-wrap: wrap;
     margin-left: -13px;
+  }
+
+  /* Comfortable tap targets on touch devices */
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 
   .footer-meta {

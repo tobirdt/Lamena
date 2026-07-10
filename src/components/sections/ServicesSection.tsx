@@ -22,8 +22,8 @@ function ServiceColumn({ title, items, baseDelay = 0 }: { title: string; items: 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-48px' }}
             transition={{
-              duration: 0.4,
-              delay: baseDelay + index * 0.05,
+              duration: 0.5,
+              delay: baseDelay + index * 0.06,
               ease: EASE_OUT,
               ...(prefersReducedMotion ? { duration: 0.001 } : {}),
             }}

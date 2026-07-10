@@ -39,7 +39,7 @@ export function AboutSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{
-                duration: 0.45,
+                duration: 0.5,
                 delay: 0.08 + index * 0.08,
                 ease: EASE_OUT,
                 ...(prefersReducedMotion ? { duration: 0.001 } : {}),

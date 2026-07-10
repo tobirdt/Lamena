@@ -31,8 +31,8 @@ export function OperatingModelSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{
-              duration: 0.52,
-              delay: index * 0.1,
+              duration: 0.5,
+              delay: index * 0.08,
               ease: EASE_OUT,
               ...(prefersReducedMotion ? { duration: 0.001 } : {}),
             }}
