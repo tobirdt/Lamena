@@ -18,7 +18,11 @@ export function useEntrance(active: boolean, ref: RefObject<Element | null>, mar
   const [armed, setArmed] = useState(false)
 
   useEffect(() => {
-    if (active && !reduced) setArmed(true)
+    if (!active || reduced) return
+    // Arm on the next frame — keeps the first paint at the finished state
+    // and satisfies react-hooks/set-state-in-effect.
+    const raf = requestAnimationFrame(() => setArmed(true))
+    return () => cancelAnimationFrame(raf)
   }, [active, reduced])
 
   return `${armed ? ' pf-armed' : ''}${inView ? ' pf-inview' : ''}`

@@ -4,6 +4,7 @@ import { useMotionValueEvent, useReducedMotion, useScroll } from 'framer-motion'
 import { portfolioCards } from '../../data/content'
 import type { PortfolioCard } from '../../types/content'
 import { useEntrance } from '../../lib/useEntrance'
+import { useMediaQuery } from '../../lib/useMediaQuery'
 import { CommunicationVisual } from '../visuals/CommunicationVisual'
 import { FinanceVisual } from '../visuals/FinanceVisual'
 import { SecurityVisual } from '../visuals/SecurityVisual'
@@ -49,42 +50,30 @@ export function PortfolioSection() {
   const headingRef = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion()
 
-  // Pin activates client-side only, on viewports ≥769px with motion allowed.
-  // First paint (and no-JS) is always the flowing layout.
-  const [canPin, setCanPin] = useState(false)
-  useEffect(() => {
-    if (reduced) {
-      setCanPin(false)
-      return
-    }
-    const mq = window.matchMedia('(min-width: 769px)')
-    const update = () => setCanPin(mq.matches)
-    update()
-    mq.addEventListener('change', update)
-    return () => mq.removeEventListener('change', update)
-  }, [reduced])
+  // Pin only on viewports ≥769px with motion allowed. First paint (and
+  // no-JS) is always the flowing layout — pinning waits for a measurement.
+  const wideViewport = useMediaQuery('(min-width: 769px)')
+  const canPin = wideViewport && !reduced
 
   // Pin length from MEASURED content: one viewport for the stage plus a
   // measured reveal distance per case — never a bare viewport multiple.
-  const [pinHeight, setPinHeight] = useState<number | null>(null)
+  // All measurement runs through rAF, so state settles asynchronously.
+  const [measuredHeight, setMeasuredHeight] = useState<number | null>(null)
   useEffect(() => {
-    if (!canPin) {
-      setPinHeight(null)
-      return
-    }
+    if (!canPin) return
     let raf = 0
     const measure = () => {
       const caseEl = stageRef.current?.querySelector('.pf-case')
       if (!caseEl) return
       const vh = window.innerHeight
       const reveal = Math.max(caseEl.getBoundingClientRect().height, vh * 0.55)
-      setPinHeight(Math.round(vh + portfolioCards.length * reveal + vh * 0.3))
+      setMeasuredHeight(Math.round(vh + portfolioCards.length * reveal + vh * 0.3))
     }
     const schedule = () => {
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(measure)
     }
-    measure()
+    schedule()
     const ro = new ResizeObserver(schedule)
     if (stageRef.current) ro.observe(stageRef.current)
     window.addEventListener('resize', schedule)
@@ -97,6 +86,7 @@ export function PortfolioSection() {
     }
   }, [canPin])
 
+  const pinHeight = canPin ? measuredHeight : null
   const pinned = canPin && pinHeight !== null
 
   // Scroll progress 0→1 across the tall outer section, streamed into --pf.
