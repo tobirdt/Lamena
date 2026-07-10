@@ -1,4 +1,3 @@
-import { BriefcaseBusiness, RadioTower, ShieldCheck } from 'lucide-react'
 import type { ExpertiseItem, PortfolioCard, ServiceArea } from '../types/content'
 
 export const navItems = [
@@ -45,23 +44,17 @@ export const consultingAreas: ServiceArea[] = [
 
 export const portfolioCards: PortfolioCard[] = [
   {
-    icon: ShieldCheck,
     title: 'Security & safety',
-    label: 'Risk · Defense · Infrastructure',
     body: 'Engineering support and advisory for governmental authorities, the defense industry and organizations operating in sensitive or technically demanding environments.',
     type: 'security',
   },
   {
-    icon: RadioTower,
     title: 'Communication industries',
-    label: 'Connectivity · Systems · Mediation',
     body: 'Consulting and mediation for communication service providers, regulatory authorities, manufacturers and international organizations seeking product selection, placement and project implementation.',
     type: 'communication',
   },
   {
-    icon: BriefcaseBusiness,
     title: 'Finance & transformation',
-    label: 'Controlling · Auditing · Advisory',
     body: 'Finance, controlling, auditing and asset management advisory for companies navigating growth, restructuring, legal frameworks and international compliance.',
     type: 'finance',
   },

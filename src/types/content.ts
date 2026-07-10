@@ -1,5 +1,3 @@
-import type { LucideIcon } from 'lucide-react'
-
 export type ServiceArea = {
   title: string
 }
@@ -10,9 +8,7 @@ export type ExpertiseItem = {
 }
 
 export type PortfolioCard = {
-  icon: LucideIcon
   title: string
-  label: string
   body: string
   type: 'security' | 'communication' | 'finance'
 }
