@@ -1534,6 +1534,46 @@
 }
 
 /* ════════════════════════════════════════════════════════
+   FULLSCREEN SCROLL — each section fills one viewport and snaps.
+   Only on desktop-height viewports (≥ 700px tall, ≥ 769px wide);
+   phones/short screens and the long legal pages scroll normally.
+   `proximity` (not mandatory) keeps it forgiving — never traps a
+   section whose content is taller than the viewport.
+   ════════════════════════════════════════════════════════ */
+@media (min-width: 769px) and (min-height: 700px) {
+  html {
+    scroll-snap-type: y proximity;
+    /* Snap sits below the floating header when jumped to via anchor */
+    scroll-padding-top: 0;
+  }
+
+  .hero-section,
+  .about-section,
+  .services-section,
+  .portfolio-section,
+  .operating-section,
+  .contact-section {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: start;
+  }
+
+  /* Full-bleed chapters already center their inner stage */
+  .services-section,
+  .portfolio-section {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* Contact is the tallest block — let it own its viewport, form included */
+  .contact-section {
+    padding-top: 64px;
+  }
+}
+
+/* ════════════════════════════════════════════════════════
    RESPONSIVE — 6 systematic breakpoints
    ════════════════════════════════════════════════════════ */
 
