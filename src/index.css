@@ -102,7 +102,15 @@ html {
   -webkit-text-size-adjust: 100%;
   /* Reserve scrollbar space on Windows (no layout shift) */
   scrollbar-gutter: stable;
+  /* Native smooth-scroll fallback for the moment before Lenis mounts
+     (and for reduced-motion / no-JS). Lenis stamps a `.lenis` class on
+     <html> once running — its own rAF interpolation replaces this, so
+     the native easing doesn't fight Lenis's. */
   scroll-behavior: smooth;
+}
+
+html.lenis {
+  scroll-behavior: auto;
 }
 
 *,
@@ -168,12 +176,41 @@ video {
   isolation: isolate;
 }
 
+/* ─── Film grain — fixed, tactile texture over the whole page ──────
+   Static SVG turbulence, blended soft so it reads as premium film
+   grain without shimmer. pointer-events: none; purely decorative. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
 /* ─── Windows scrollbar styling ──────────────────────── */
 @supports (scrollbar-width: thin) {
   * {
     scrollbar-width: thin;
     scrollbar-color: var(--surface-strong) transparent;
   }
+}
+
+/* ─── Mask reveal — clipped rise for headings ───────── */
+.mask-reveal {
+  display: block;
+  /* Clip the rise, but pad so descenders/tall glyphs never get cut */
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.mask-reveal-inner {
+  display: block;
+  will-change: transform;
 }
 
 /* ─── Focus visible (keyboard nav) ──────────────────── */

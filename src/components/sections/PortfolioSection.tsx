@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
 import { portfolioCards } from '../../data/content'
 import type { PortfolioCard } from '../../types/content'
+import { MaskReveal } from '../MaskReveal'
 import { Reveal } from '../Reveal'
 import { CommunicationVisual } from '../visuals/CommunicationVisual'
 import { FinanceVisual } from '../visuals/FinanceVisual'
@@ -18,7 +19,9 @@ export function PortfolioSection() {
       <div className="portfolio-stage">
         <Reveal className="section-heading">
           <span className="section-kicker">Portfolio</span>
-          <h2>Focused expertise for organizations where reliability matters.</h2>
+          <h2>
+            <MaskReveal>Focused expertise for organizations where reliability matters.</MaskReveal>
+          </h2>
           <p>A trusted consultant and project partner across security, defense, communications and finance.</p>
         </Reveal>
 

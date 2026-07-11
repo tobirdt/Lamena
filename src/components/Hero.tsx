@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { DUR_REVEAL, EASE_OUT } from '../lib/motion'
 import { HeroMark } from './HeroMark'
+import { MaskReveal } from './MaskReveal'
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion()
@@ -22,7 +23,11 @@ export function Hero() {
         >
           <div className="hero-kicker">Security · Safety · Communication</div>
 
-          <h1>Strategic security and communication engineering.</h1>
+          <h1>
+            <MaskReveal trigger="load" delay={0.12}>
+              Strategic security and communication engineering.
+            </MaskReveal>
+          </h1>
 
           <p>Technical expertise, global partnerships, trusted delivery.</p>
 

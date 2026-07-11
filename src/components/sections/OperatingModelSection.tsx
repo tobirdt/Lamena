@@ -1,4 +1,5 @@
 import { operatingSteps } from '../../data/content'
+import { MaskReveal } from '../MaskReveal'
 import { Reveal } from '../Reveal'
 
 export function OperatingModelSection() {
@@ -6,7 +7,9 @@ export function OperatingModelSection() {
     <section className="operating-section" aria-label="Lamena operating model">
       <Reveal className="section-heading">
         <span className="section-kicker">Operating model</span>
-        <h2>Simple structure for complex environments.</h2>
+        <h2>
+          <MaskReveal>Simple structure for complex environments.</MaskReveal>
+        </h2>
         <p>Understand the environment, connect the right partners, deliver with discipline.</p>
       </Reveal>
 

@@ -1,12 +1,32 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
+import { getLenis } from '../lib/smoothScroll'
 
 /** Settle window for deep links: the display-font swap can shift layout
  *  after the first scroll — re-apply once until stable. */
 const SETTLE_STEPS_MS = [0, 350]
 
+/** Routes every programmatic scroll through Lenis when it's running, so its
+ *  internal position stays in sync — falls back to native APIs otherwise
+ *  (reduced motion, or before Lenis has mounted). */
+function scrollToTop(behavior: ScrollBehavior) {
+  const lenis = getLenis()
+  if (lenis) {
+    lenis.scrollTo(0, { immediate: behavior === 'auto' })
+  } else {
+    window.scrollTo({ top: 0, behavior })
+  }
+}
+
 function applyHashScroll(targetId: string, behavior: ScrollBehavior) {
-  document.getElementById(targetId)?.scrollIntoView({ behavior, block: 'start' })
+  const el = document.getElementById(targetId)
+  if (!el) return
+  const lenis = getLenis()
+  if (lenis) {
+    lenis.scrollTo(el, { immediate: behavior === 'instant' })
+  } else {
+    el.scrollIntoView({ behavior, block: 'start' })
+  }
 }
 
 export function ScrollManager() {
@@ -22,7 +42,7 @@ export function ScrollManager() {
 
     if (!targetId) {
       // First load without hash: leave scroll restoration to the browser
-      if (!isFirst) window.scrollTo({ top: 0, behavior })
+      if (!isFirst) scrollToTop(behavior)
       return
     }
 

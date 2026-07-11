@@ -36,3 +36,16 @@ Preview-Tool-Hinweis: Screenshots nach programmatischem Scroll sind in der
 Headless-Preview unzuverlässig — stattdessen `document.body.style.transform =
 'translateY(-Npx)'` bei Scroll 0 setzen und ZWEI Screenshots machen (der erste
 pumpt die rAF-gedrosselten Animationen, der zweite ist der echte Capture).
+
+**rAF ist im Headless-Tab komplett ausgesetzt, nicht nur gedrosselt**
+(`document.visibilityState === 'hidden'`, `hasFocus() === false`) — betrifft
+`whileInView`-Reveals (MaskReveal/Reveal bleiben im Ausgangszustand stehen)
+UND Lenis-Smooth-Scroll (Wheel-Events lösen `lenis-scrolling`-Klasse korrekt
+aus, aber die rAF-Interpolation tickt nie, `computer scroll` läuft in einen
+30s-Timeout). Das ist keine Code-Regression — echte Nutzer-Tabs sind beim
+Scrollen immer fokussiert/sichtbar. Verifikation in diesem Fall über
+Code-Review + DOM-/Klassen-Zustand, nicht über sichtbares Bewegen im
+Screenshot. Smooth Scroll: `src/lib/smoothScroll.ts` (Lenis, `syncTouch`
+bleibt aus → Mobile nutzt natives Touch-Scrolling unangetastet); `html.lenis`
+schaltet `scroll-behavior` auf `auto`, damit sich native und Lenis-Smoothing
+nicht überlagern.
