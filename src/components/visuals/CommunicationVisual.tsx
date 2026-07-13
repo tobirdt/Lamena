@@ -39,7 +39,7 @@ export function CommunicationVisual() {
       </defs>
 
       {/* Registration marks */}
-      <g className="pf-fade" style={i(0)} stroke="rgba(243, 239, 230,0.18)" strokeWidth="0.8">
+      <g className="pf-fade" style={i(0)} stroke="rgba(242, 240, 248,0.18)" strokeWidth="0.8">
         {[
           [52, 36],
           [348, 36],
@@ -60,7 +60,7 @@ export function CommunicationVisual() {
         cx={AX} cy={CY} r={R}
         pathLength={1}
         fill="none"
-        stroke="rgba(243, 239, 230,0.30)"
+        stroke="rgba(242, 240, 248,0.30)"
         strokeWidth="1.1"
       />
       <circle
@@ -69,7 +69,7 @@ export function CommunicationVisual() {
         cx={BX} cy={CY} r={R}
         pathLength={1}
         fill="none"
-        stroke="rgba(243, 239, 230,0.30)"
+        stroke="rgba(242, 240, 248,0.30)"
         strokeWidth="1.1"
       />
 
@@ -77,7 +77,7 @@ export function CommunicationVisual() {
       <g clipPath="url(#cv-lens)">
         <g className="pf-fade" style={i(2.4)} clipPath="url(#cv-lens-b)">
           <circle cx={BX} cy={CY} r={R} fill="rgba(138, 109, 59,0.08)" />
-          <g stroke="rgba(194, 168, 120,0.4)" strokeWidth="0.7">
+          <g stroke="rgba(167, 139, 203,0.4)" strokeWidth="0.7">
             {HATCH.map((h, idx) => (
               <line key={idx} x1={h.x1} y1={h.y1} x2={h.x2} y2={h.y2} />
             ))}
@@ -91,22 +91,22 @@ export function CommunicationVisual() {
         style={i(2)}
         x1={AX} y1={CY} x2={BX} y2={CY}
         pathLength={1}
-        stroke="rgba(243, 239, 230,0.26)"
+        stroke="rgba(242, 240, 248,0.26)"
         strokeWidth="0.8"
       />
-      <g className="pf-fade" style={i(2.2)} stroke="rgba(243, 239, 230,0.3)" strokeWidth="0.8">
+      <g className="pf-fade" style={i(2.2)} stroke="rgba(242, 240, 248,0.3)" strokeWidth="0.8">
         <line x1={AX} y1={CY - 6} x2={AX} y2={CY + 6} />
         <line x1={BX} y1={CY - 6} x2={BX} y2={CY + 6} />
       </g>
 
       {/* Node marks at centers */}
       <g className="pf-fade" style={i(2.6)}>
-        <circle cx={AX} cy={CY} r="2.6" fill="#c2a878" />
-        <circle cx={BX} cy={CY} r="2.6" fill="#c2a878" />
+        <circle cx={AX} cy={CY} r="2.6" fill="#a78bcb" />
+        <circle cx={BX} cy={CY} r="2.6" fill="#a78bcb" />
       </g>
 
       {/* Distance leader below */}
-      <g className="pf-fade" style={i(2.8)} stroke="rgba(243, 239, 230,0.22)" strokeWidth="0.7">
+      <g className="pf-fade" style={i(2.8)} stroke="rgba(242, 240, 248,0.22)" strokeWidth="0.7">
         <line x1={AX} y1={CY + R + 8} x2={BX} y2={CY + R + 8} />
         <line x1={AX} y1={CY + R + 4} x2={AX} y2={CY + R + 12} />
         <line x1={BX} y1={CY + R + 4} x2={BX} y2={CY + R + 12} />
@@ -116,7 +116,7 @@ export function CommunicationVisual() {
       <g
         className="pf-fade"
         style={i(3)}
-        fill="rgba(243, 239, 230,0.46)"
+        fill="rgba(242, 240, 248,0.46)"
         fontFamily="'IBM Plex Mono', ui-monospace, monospace"
         fontSize="9.5"
         letterSpacing="0.14em"

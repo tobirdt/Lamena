@@ -40,7 +40,7 @@ export function SecurityVisual() {
       aria-hidden="true"
     >
       {/* Registration marks — drawing-sheet corners */}
-      <g className="pf-fade" style={i(0)} stroke="rgba(243, 239, 230,0.18)" strokeWidth="0.8">
+      <g className="pf-fade" style={i(0)} stroke="rgba(242, 240, 248,0.18)" strokeWidth="0.8">
         {[
           [52, 36],
           [348, 36],
@@ -61,7 +61,7 @@ export function SecurityVisual() {
         cx={CX} cy={CY} r={R}
         pathLength={1}
         fill="none"
-        stroke="rgba(243, 239, 230,0.30)"
+        stroke="rgba(242, 240, 248,0.30)"
         strokeWidth="1.1"
       />
       <circle
@@ -70,13 +70,13 @@ export function SecurityVisual() {
         cx={CX} cy={CY} r={R_INNER}
         pathLength={1}
         fill="none"
-        stroke="rgba(243, 239, 230,0.14)"
+        stroke="rgba(242, 240, 248,0.14)"
         strokeWidth="0.8"
         strokeDasharray="3 4"
       />
 
       {/* Radial dimension leaders with tick terminals */}
-      <g className="pf-fade" style={i(2)} stroke="rgba(243, 239, 230,0.26)" strokeWidth="0.8">
+      <g className="pf-fade" style={i(2)} stroke="rgba(242, 240, 248,0.26)" strokeWidth="0.8">
         {LEADERS.map((l, idx) => (
           <line key={idx} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} />
         ))}
@@ -89,10 +89,10 @@ export function SecurityVisual() {
         x1={CX} y1={CY}
         x2={point(155, R)[0]} y2={point(155, R)[1]}
         pathLength={1}
-        stroke="rgba(243, 239, 230,0.22)"
+        stroke="rgba(242, 240, 248,0.22)"
         strokeWidth="0.8"
       />
-      <g className="pf-fade" style={i(2.6)} stroke="rgba(194, 168, 120,0.6)" strokeWidth="0.9">
+      <g className="pf-fade" style={i(2.6)} stroke="rgba(167, 139, 203,0.6)" strokeWidth="0.9">
         <line x1={CX - 9} y1={CY} x2={CX - 3} y2={CY} />
         <line x1={CX + 3} y1={CY} x2={CX + 9} y2={CY} />
         <line x1={CX} y1={CY - 9} x2={CX} y2={CY - 3} />
@@ -106,7 +106,7 @@ export function SecurityVisual() {
         d={`M ${ax1} ${ay1} A ${R} ${R} 0 0 1 ${ax2} ${ay2}`}
         pathLength={1}
         fill="none"
-        stroke="#c2a878"
+        stroke="#a78bcb"
         strokeWidth="2.4"
         strokeLinecap="round"
       />
@@ -117,7 +117,7 @@ export function SecurityVisual() {
         d={`M ${point(-40, R + 3)[0]} ${point(-40, R + 3)[1]} L 278 50 L 296 50`}
         pathLength={1}
         fill="none"
-        stroke="rgba(194, 168, 120,0.5)"
+        stroke="rgba(167, 139, 203,0.5)"
         strokeWidth="0.8"
       />
 
@@ -125,7 +125,7 @@ export function SecurityVisual() {
       <g
         className="pf-fade"
         style={i(3)}
-        fill="rgba(243, 239, 230,0.46)"
+        fill="rgba(242, 240, 248,0.46)"
         fontFamily="'IBM Plex Mono', ui-monospace, monospace"
         fontSize="9.5"
         letterSpacing="0.14em"

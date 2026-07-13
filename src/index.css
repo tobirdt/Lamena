@@ -1,32 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  /* Base palette — warm bone/paper + warm ink (institutional, not tech-white) */
-  --bg: #f4f1ea;
-  --surface: #fffdf8;
-  --surface-soft: #ece5d7;
-  --surface-strong: #ded4c2;
-  --ink: #1b1712;
-  --muted: #5c5348;
-  --muted-strong: #423b31;
+  /* Base palette — clean near-white + cool near-black (minimal, purple-adjacent) */
+  --bg: #f8f7fb;
+  --surface: #ffffff;
+  --surface-soft: #f1edf8;
+  --surface-strong: #e6dff2;
+  --ink: #16141c;
+  --muted: #575162;
+  --muted-strong: #433d4f;
 
-  /* Accent — muted brass/bronze (sovereign, not startup-purple) */
-  --accent: #8a6d3b;
-  --accent-deep: #6f5630;
-  --accent-mid: #7d6234;
-  --accent-soft: #c2a878;
-  --accent-pale: #ece2ce;
+  /* Accent — Lamena brand purple (the logo "A"s) */
+  --accent: #6f4d92;
+  --accent-deep: #55397a;
+  --accent-mid: #5e33b4;
+  --accent-soft: #a78bcb;
+  --accent-pale: #efe9f8;
 
-  /* Dark institutional band (hero / portfolio / footer) — warm ink, no purple */
-  --hero-bg: #14120d;
-  --hero-text: #f3efe6;
-  --hero-muted: rgba(243, 239, 230, 0.58);
+  /* Dark band (hero / portfolio / footer) — near-black with a faint cool cast */
+  --hero-bg: #0e0c15;
+  --hero-text: #f2f0f8;
+  --hero-muted: rgba(242, 240, 248, 0.56);
 
   /* Lines + effects */
-  --line: rgba(27, 23, 18, 0.1);
-  --line-strong: rgba(138, 109, 59, 0.28);
-  --shadow-soft: 0 8px 32px rgba(28, 22, 12, 0.07);
-  --shadow-card: 0 1px 2px rgba(28, 22, 12, 0.05), 0 6px 20px rgba(28, 22, 12, 0.07);
+  --line: rgba(20, 18, 28, 0.1);
+  --line-strong: rgba(111, 77, 146, 0.24);
+  --shadow-soft: 0 8px 32px rgba(24, 18, 44, 0.07);
+  --shadow-card: 0 1px 2px rgba(24, 18, 44, 0.05), 0 6px 20px rgba(24, 18, 44, 0.07);
 
   /* Layout */
   --radius-lg: 14px;
@@ -47,8 +47,9 @@
   --duration-ui: 220ms;
   --dur-reveal: 450ms;
 
-  /* Typography — editorial serif display, Inter body, mono as rare accent */
-  --font-display: "Fraunces", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  /* Typography — Jost geometric display (echoes the logo's Futura-style
+     triangular A), Inter body, mono as a rare functional accent */
+  --font-display: "Jost", "Century Gothic", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* Fluid type scale — replaces stepped breakpoint font-sizes */
