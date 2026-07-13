@@ -13,6 +13,9 @@ Kanzlei-/Geschäftsbericht-Anmutung, Autorität durch Zurückhaltung.
   Kapitälchen (getrackt), NICHT mehr Mono/Terminal.
 - **HeroMark:** ruhiges Venn-Monogramm (kein Instrumenten-Ring/Fadenkreuz/Radar).
 - **Motion:** Mask-Reveal nur noch am Hero-H1; Sektionen nur schlichtes Fade-up.
+- **Scroll:** Lenis Smooth Scroll + Sektionen mit `min-height:100svh` (Vollbild-
+  Gefühl). KEIN CSS `scroll-snap` — natives Snap kämpft gegen Lenis' rAF-Scroll
+  und ruckelt (v.a. Trackpad). Nicht wieder hinzufügen.
 - Frühere Richtung „Precision Console" ist bewusst abgelöst — Mono-überall,
   Purpur-Glow, Konsolen-Affekt gelten jetzt als KI-Tells, nicht als Signatur.
 

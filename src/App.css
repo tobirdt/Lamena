@@ -1531,19 +1531,14 @@
 }
 
 /* ════════════════════════════════════════════════════════
-   FULLSCREEN SCROLL — each section fills one viewport and snaps.
+   FULLSCREEN SECTIONS — each main section fills one viewport and
+   centres its content. NO CSS scroll-snap: native snap fights Lenis'
+   rAF-driven smooth scroll and produces stutter, so the fullscreen
+   feel is kept purely through sizing while Lenis owns the motion.
    Only on desktop-height viewports (≥ 700px tall, ≥ 769px wide);
-   phones/short screens and the long legal pages scroll normally.
-   `proximity` (not mandatory) keeps it forgiving — never traps a
-   section whose content is taller than the viewport.
+   phones/short screens and the long legal pages flow normally.
    ════════════════════════════════════════════════════════ */
 @media (min-width: 769px) and (min-height: 700px) {
-  html {
-    scroll-snap-type: y proximity;
-    /* Snap sits below the floating header when jumped to via anchor */
-    scroll-padding-top: 0;
-  }
-
   .hero-section,
   .about-section,
   .services-section,
@@ -1554,7 +1549,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    scroll-snap-align: start;
   }
 
   /* Full-bleed chapters already center their inner stage */
