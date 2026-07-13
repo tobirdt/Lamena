@@ -926,16 +926,6 @@
   line-height: 1.66;
 }
 
-/* SVG drawings render finished — no draw-in choreography */
-.pf-svg .pf-draw {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-}
-
-.pf-svg .pf-fade {
-  opacity: 1;
-}
-
 /* Mobile / stacked: horizontal hairlines between cases */
 @media (max-width: 768px) {
   .portfolio-grid {

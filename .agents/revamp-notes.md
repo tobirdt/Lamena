@@ -11,7 +11,17 @@ Kanzlei-/Geschäftsbericht-Anmutung, Autorität durch Zurückhaltung.
   Body = Inter, **Mono nur noch als seltener funktionaler Register-Akzent**
   (Zahlen/Indizes, Meta-Datenzeilen, SVG-Callouts). Kicker sind Inter-
   Kapitälchen (getrackt), NICHT mehr Mono/Terminal.
-- **HeroMark:** ruhiges Venn-Monogramm (kein Instrumenten-Ring/Fadenkreuz/Radar).
+- **Grafik-System „Apex" (Juli 2026):** ALLE Grafiken sind aus der Marken-DNA
+  abgeleitet — dem offenen „A" des Logos (Λ, purpurne Dreiecks-Spitze). Kein
+  Venn, keine Fake-Engineering-Zeichnungen (Maßpfeile, „R 72 / PERIMETER / ZONE
+  A", Registermarken) mehr — die galten als KI-Tell (Deko, die Bedeutung
+  vortäuscht). Stattdessen bedeutungsvolle Apex-Kompositionen:
+  HeroMark = verschachteltes Apex-Monogramm (purpurner Kern) · Security =
+  gestaffelte Apexe (geschichteter Schutz) · Communication = verbundene
+  Apex-Peaks mit Ridge/Knoten (Netzwerk) · Finance = aufsteigende Apexe mit
+  Wachstums-Trajektorie zum purpurnen Peak. Statisch, keine Callouts, kein Mono.
+  Helfer `apex(h,w)`/`apex([x,h])` je Datei. Neue Grafiken IMMER aus dem Apex
+  bauen, nicht wieder dekorativ „technisch" werden.
 - **Motion:** Mask-Reveal nur noch am Hero-H1; Sektionen nur schlichtes Fade-up.
 - **Scroll:** Lenis Smooth Scroll + Sektionen mit `min-height:100svh` (Vollbild-
   Gefühl). KEIN CSS `scroll-snap` — natives Snap kämpft gegen Lenis' rAF-Scroll

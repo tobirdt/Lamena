@@ -1,62 +1,46 @@
-// Three overlapping circles — the brand's Security ∩ Safety ∩ Communication
-// monogram. Quiet and static: a mark, not an instrument. (Earlier versions
-// had a radar-style tick ring + crosshair; removed for institutional calm.)
-const CIRCLES = [
-  { cx: 148, cy: 158 },
-  { cx: 272, cy: 158 },
-  { cx: 210, cy: 244 },
-]
+// The Lamena mark — the logo's open "A" apex (Λ) nested in concentric layers
+// into a quiet monogram, brand-purple at the core. Built from the wordmark's
+// own geometry (not a generic diagram): a mark, not an instrument. Static.
 
-const LABELS = [
-  { text: 'Security',      x: 148, y: 52 },
-  { text: 'Safety',        x: 272, y: 52 },
-  { text: 'Communication', x: 210, y: 372 },
-]
-
-const R = 112
 const CX = 210
-const CY = 187
+const BASE = 300
+
+// Outer → inner. Constant slant echoes the logo's angle; the core is purple.
+const LAYERS = [
+  { h: 260, w: 150, stroke: 'rgba(242, 240, 248,0.09)', width: 1 },
+  { h: 216, w: 118, stroke: 'rgba(242, 240, 248,0.15)', width: 1 },
+  { h: 172, w: 86, stroke: 'rgba(242, 240, 248,0.24)', width: 1.1 },
+  { h: 128, w: 54, stroke: 'rgba(167, 139, 203,0.9)', width: 2.2 },
+]
+
+const apex = (h: number, w: number) =>
+  `M ${CX - w} ${BASE} L ${CX} ${BASE - h} L ${CX + w} ${BASE}`
 
 export function HeroMark() {
+  const coreTipY = BASE - LAYERS[LAYERS.length - 1].h
+
   return (
     <svg viewBox="0 0 420 398" className="hero-mark" aria-hidden="true">
-      <defs>
-        <radialGradient id="hm-core" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#b9a0da" stopOpacity="0.18" />
-          <stop offset="100%" stopColor="#6f4d92" stopOpacity="0" />
-        </radialGradient>
-      </defs>
+      {/* Baseline */}
+      <line
+        x1="60" y1={BASE} x2="360" y2={BASE}
+        stroke="rgba(242, 240, 248,0.1)" strokeWidth="1"
+      />
 
-      {/* Venn circles */}
-      {CIRCLES.map((c, i) => (
-        <circle
-          key={i}
-          cx={c.cx} cy={c.cy} r={R}
-          fill="rgba(255,255,255,0.02)"
-          stroke="rgba(242, 240, 248,0.24)"
-          strokeWidth="1"
+      {/* Nested apex layers */}
+      {LAYERS.map((l, idx) => (
+        <path
+          key={idx}
+          d={apex(l.h, l.w)}
+          fill="none"
+          stroke={l.stroke}
+          strokeWidth={l.width}
+          strokeLinejoin="round"
         />
       ))}
 
-      {/* Soft warmth + a single quiet mark at the triple intersection */}
-      <ellipse cx={CX} cy={CY} rx="46" ry="40" fill="url(#hm-core)" />
-      <circle cx={CX} cy={CY} r="2.5" fill="#b9a0da" opacity="0.75" />
-
-      {/* Labels */}
-      {LABELS.map((l) => (
-        <text
-          key={l.text}
-          x={l.x} y={l.y}
-          textAnchor="middle"
-          fill="rgba(242, 240, 248,0.46)"
-          fontSize="10.5"
-          fontFamily="Inter, system-ui, sans-serif"
-          fontWeight="600"
-          letterSpacing="0.2em"
-        >
-          {l.text.toUpperCase()}
-        </text>
-      ))}
+      {/* Apex vertex — a single quiet purple mark */}
+      <circle cx={CX} cy={coreTipY} r="3" fill="rgba(167, 139, 203,0.95)" />
     </svg>
   )
 }
