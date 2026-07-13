@@ -1,15 +1,26 @@
 # Revamp-Notizen (Juli 2026)
 
-Design-Richtung: **„Precision Console / Swiss Editorial"** — die technische
-Konsolen-Sprache der Portfolio-SVGs (IBM Plex Mono, Status-Zeilen, Indizes)
-zieht sich jetzt als Signatur durch die ganze Seite; Sektionen sind editorial
-asymmetrisch statt uniform zentriert.
+Design-Richtung: **„The Quiet Institution / Souveräne Präzision"** (Art-Direction-
+Pass, Juli 2026) — warm-institutionell statt tech. Referenz: Souveränfonds-/
+Kanzlei-/Geschäftsbericht-Anmutung, Autorität durch Zurückhaltung.
+- **Farbe:** warmes Bone/Papier (`--bg #f4f1ea`) + warme Tinte (`--ink`,
+  `--hero-bg #14120d`), **Messing/Bronze-Akzent** (`--accent*`) statt Purpur.
+  KEIN violetter Radial-Glow, KEIN Film-Grain (beide entfernt — waren die
+  stärksten „KI-Startup"-Tells).
+- **Typo:** Display = **Fraunces** (editoriale Serif, `--font-display`),
+  Body = Inter, **Mono nur noch als seltener funktionaler Register-Akzent**
+  (Zahlen/Indizes, Meta-Datenzeilen, SVG-Callouts). Kicker sind Inter-
+  Kapitälchen (getrackt), NICHT mehr Mono/Terminal.
+- **HeroMark:** ruhiges Venn-Monogramm (kein Instrumenten-Ring/Fadenkreuz/Radar).
+- **Motion:** Mask-Reveal nur noch am Hero-H1; Sektionen nur schlichtes Fade-up.
+- Frühere Richtung „Precision Console" ist bewusst abgelöst — Mono-überall,
+  Purpur-Glow, Konsolen-Affekt gelten jetzt als KI-Tells, nicht als Signatur.
 
 ## Leitplanken für weitere Arbeit
 
-- **Mono-Akzent**: Kicker, Indizes (01/02/…), Meta-Zeilen, Status-Labels nutzen
-  `var(--font-mono)` (IBM Plex Mono 400/500/600 via Google Fonts), 0.62–0.78rem,
-  letter-spacing 0.04–0.14em, uppercase. Keine neuen Icon-Kachel-Karten einführen.
+- **Mono-Akzent (reduziert)**: NUR noch funktionaler Register — Indizes (01/02/…),
+  Meta-Datenzeilen, SVG-Zeichnungs-Callouts. NICHT für Kicker/Labels (die sind
+  Inter-Kapitälchen). Keine neuen Icon-Kachel-Karten einführen.
 - **Motion-System (Minimalismus-Pass Juli 2026)**: EIN Reveal (Fade-up 450ms/10px,
   `EASE_OUT`) pro Sektions-Block — keine Element-Kaskaden, keine Draw-in-Effekte,
   keine Loops, kein Scroll-Pinning. Micro 150ms · UI 220ms für Zustandswechsel.

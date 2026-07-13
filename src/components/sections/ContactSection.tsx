@@ -3,7 +3,6 @@ import { MAP_URL } from '../../data/content'
 import { SITE_URL } from '../../lib/site'
 import { BrandLogo } from '../BrandLogo'
 import { ContactForm } from '../ContactForm'
-import { MaskReveal } from '../MaskReveal'
 import { Reveal } from '../Reveal'
 
 export function ContactSection() {
@@ -11,9 +10,7 @@ export function ContactSection() {
     <section className="section contact-section" id="contact">
       <Reveal className="section-heading centered">
         <span className="section-kicker">Contact</span>
-        <h2>
-          <MaskReveal>Start a focused conversation.</MaskReveal>
-        </h2>
+        <h2>Start a focused conversation.</h2>
       </Reveal>
 
       <div className="contact-layout">

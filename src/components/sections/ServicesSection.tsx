@@ -1,6 +1,5 @@
 import { consultingAreas, mediationAreas } from '../../data/content'
 import type { ServiceArea } from '../../types/content'
-import { MaskReveal } from '../MaskReveal'
 import { Reveal } from '../Reveal'
 
 function ServiceColumn({ title, items, delay = 0 }: { title: string; items: ServiceArea[]; delay?: number }) {
@@ -29,11 +28,9 @@ export function ServicesSection() {
       <Reveal className="section-heading split">
         <div>
           <span className="section-kicker">Services</span>
-          <h2>
-            <MaskReveal>Lean advisory, technical mediation and project delivery.</MaskReveal>
-          </h2>
+          <h2>Lean advisory, technical mediation and project delivery.</h2>
         </div>
-        <p>From early market analysis to turnkey delivery — focused, senior, built around results.</p>
+        <p>From early market analysis to turnkey delivery, across regulated and security-sensitive sectors.</p>
       </Reveal>
 
       <div className="service-columns">

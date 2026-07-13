@@ -1,60 +1,32 @@
 @import "tailwindcss";
 
-/* ─── Display face — Archivo SemiExpanded (self-hosted, subset) ───
-   Headlines only. Inter stays for body/UI, IBM Plex Mono for accents. */
-@font-face {
-  font-family: "Archivo Display";
-  src: url("/fonts/archivo-display-500.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Archivo Display";
-  src: url("/fonts/archivo-display-600.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Metric-matched fallback (Archivo: ascent 878/descent 210/upem 1000) — minimizes CLS during swap */
-@font-face {
-  font-family: "Archivo Display Fallback";
-  src: local("Arial");
-  size-adjust: 107%;
-  ascent-override: 88%;
-  descent-override: 21%;
-  line-gap-override: 0%;
-}
-
 :root {
-  /* Base palette */
-  --bg: #faf9fe;
-  --surface: #ffffff;
-  --surface-soft: #f1edf8;
-  --surface-strong: #e8e2f2;
-  --ink: #11101a;
-  --muted: #57515f;
-  --muted-strong: #47404f;
+  /* Base palette — warm bone/paper + warm ink (institutional, not tech-white) */
+  --bg: #f4f1ea;
+  --surface: #fffdf8;
+  --surface-soft: #ece5d7;
+  --surface-strong: #ded4c2;
+  --ink: #1b1712;
+  --muted: #5c5348;
+  --muted-strong: #423b31;
 
-  /* Purple scale */
-  --purple: #7252a0;
-  --purple-deep: #4d1fa2;
-  --purple-mid: #5e33b4;
-  --purple-soft: #a887c8;
-  --purple-pale: #ede8f8;
+  /* Accent — muted brass/bronze (sovereign, not startup-purple) */
+  --accent: #8a6d3b;
+  --accent-deep: #6f5630;
+  --accent-mid: #7d6234;
+  --accent-soft: #c2a878;
+  --accent-pale: #ece2ce;
 
-  /* Dark hero */
-  --hero-bg: #0d0b14;
-  --hero-text: #f0eeff;
-  --hero-muted: rgba(240, 238, 255, 0.52);
+  /* Dark institutional band (hero / portfolio / footer) — warm ink, no purple */
+  --hero-bg: #14120d;
+  --hero-text: #f3efe6;
+  --hero-muted: rgba(243, 239, 230, 0.58);
 
   /* Lines + effects */
-  --line: rgba(17, 16, 26, 0.09);
-  --line-strong: rgba(111, 77, 146, 0.22);
-  --shadow-soft: 0 8px 32px rgba(26, 18, 44, 0.07);
-  --shadow-card: 0 1px 2px rgba(26, 18, 44, 0.04), 0 6px 20px rgba(26, 18, 44, 0.06);
+  --line: rgba(27, 23, 18, 0.1);
+  --line-strong: rgba(138, 109, 59, 0.28);
+  --shadow-soft: 0 8px 32px rgba(28, 22, 12, 0.07);
+  --shadow-card: 0 1px 2px rgba(28, 22, 12, 0.05), 0 6px 20px rgba(28, 22, 12, 0.07);
 
   /* Layout */
   --radius-lg: 14px;
@@ -75,8 +47,8 @@
   --duration-ui: 220ms;
   --dur-reveal: 450ms;
 
-  /* Typography */
-  --font-display: "Archivo Display", "Archivo Display Fallback", "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Typography — editorial serif display, Inter body, mono as rare accent */
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, "Times New Roman", serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* Fluid type scale — replaces stepped breakpoint font-sizes */
@@ -167,28 +139,13 @@ video {
 /* ─── Text selection ─────────────────────────────────── */
 ::selection {
   color: white;
-  background: var(--purple);
+  background: var(--accent);
 }
 
 #root {
   min-height: 100svh;
   /* Isolate stacking context */
   isolation: isolate;
-}
-
-/* ─── Film grain — fixed, tactile texture over the whole page ──────
-   Static SVG turbulence, blended soft so it reads as premium film
-   grain without shimmer. pointer-events: none; purely decorative. */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.4;
-  mix-blend-mode: soft-light;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 160px 160px;
 }
 
 /* ─── Windows scrollbar styling ──────────────────────── */
@@ -215,7 +172,7 @@ body::after {
 
 /* ─── Focus visible (keyboard nav) ──────────────────── */
 :focus-visible {
-  outline: 2px solid var(--purple-deep);
+  outline: 2px solid var(--accent-deep);
   outline-offset: 3px;
   border-radius: 4px;
 }

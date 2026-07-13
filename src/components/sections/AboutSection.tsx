@@ -1,5 +1,4 @@
 import { expertiseItems } from '../../data/content'
-import { MaskReveal } from '../MaskReveal'
 import { Reveal } from '../Reveal'
 
 export function AboutSection() {
@@ -7,9 +6,7 @@ export function AboutSection() {
     <section className="section about-section" id="about">
       <Reveal className="section-heading">
         <span className="section-kicker">About</span>
-        <h2>
-          <MaskReveal>Your bridge to trust and security.</MaskReveal>
-        </h2>
+        <h2>Your bridge to trust and security.</h2>
       </Reveal>
 
       <div className="about-layout">

@@ -37,7 +37,7 @@ export function FinanceVisual() {
       </defs>
 
       {/* Registration marks */}
-      <g className="pf-fade" style={i(0)} stroke="rgba(240,238,255,0.18)" strokeWidth="0.8">
+      <g className="pf-fade" style={i(0)} stroke="rgba(243, 239, 230,0.18)" strokeWidth="0.8">
         {[
           [52, 36],
           [348, 36],
@@ -60,7 +60,7 @@ export function FinanceVisual() {
           cx={c.x} cy={c.y} r={R}
           pathLength={1}
           fill="none"
-          stroke="rgba(240,238,255,0.30)"
+          stroke="rgba(243, 239, 230,0.30)"
           strokeWidth="1.1"
         />
       ))}
@@ -69,8 +69,8 @@ export function FinanceVisual() {
       <g clipPath="url(#fv-c1)">
         <g clipPath="url(#fv-c2)">
           <g className="pf-fade" style={i(2.4)} clipPath="url(#fv-c3)">
-            <rect x={160} y={60} width={80} height={92} fill="rgba(139,102,184,0.1)" />
-            <g stroke="rgba(167,139,203,0.45)" strokeWidth="0.7">
+            <rect x={160} y={60} width={80} height={92} fill="rgba(138, 109, 59,0.1)" />
+            <g stroke="rgba(194, 168, 120,0.45)" strokeWidth="0.7">
               {HATCH.map((h, idx) => (
                 <line key={idx} x1={h.x1} y1={h.y1} x2={h.x2} y2={h.y2} />
               ))}
@@ -80,7 +80,7 @@ export function FinanceVisual() {
       </g>
 
       {/* Centroid crosshair */}
-      <g className="pf-fade" style={i(2.6)} stroke="rgba(167,139,203,0.6)" strokeWidth="0.9">
+      <g className="pf-fade" style={i(2.6)} stroke="rgba(194, 168, 120,0.6)" strokeWidth="0.9">
         <line x1={CENTROID.x - 9} y1={CENTROID.y} x2={CENTROID.x - 3} y2={CENTROID.y} />
         <line x1={CENTROID.x + 3} y1={CENTROID.y} x2={CENTROID.x + 9} y2={CENTROID.y} />
         <line x1={CENTROID.x} y1={CENTROID.y - 9} x2={CENTROID.x} y2={CENTROID.y - 3} />
@@ -89,7 +89,7 @@ export function FinanceVisual() {
 
       {/* Labeled circle centers — survey-point convention (stays inside
           the slice-crop safe zone on narrow cards) */}
-      <g className="pf-fade" style={i(2.2)} fill="rgba(240,238,255,0.4)">
+      <g className="pf-fade" style={i(2.2)} fill="rgba(243, 239, 230,0.4)">
         <circle cx={C1.x} cy={C1.y} r="1.6" />
         <circle cx={C2.x} cy={C2.y} r="1.6" />
         <circle cx={C3.x} cy={C3.y} r="1.6" />
@@ -99,7 +99,7 @@ export function FinanceVisual() {
       <g
         className="pf-fade"
         style={i(3)}
-        fill="rgba(240,238,255,0.46)"
+        fill="rgba(243, 239, 230,0.46)"
         fontFamily="'IBM Plex Mono', ui-monospace, monospace"
         fontSize="9.5"
         letterSpacing="0.14em"
