@@ -458,6 +458,11 @@
   margin-top: 40px;
 }
 
+/* Editorial practice index — only on phones (desktop shows the hero mark) */
+.hero-index {
+  display: none;
+}
+
 /* Quiet secondary — underlined text link, not a second button */
 .hero-text-link {
   color: rgba(242, 240, 248, 0.72);
@@ -1648,6 +1653,68 @@
     display: none;
   }
 
+  /* Compose the phone hero as three balanced zones across the full screen:
+     the lede (kicker + headline + subline) reads at the top, the practice
+     index sits in the middle where the hero mark lives on desktop, and the
+     CTA anchors the bottom. Two `margin-top: auto` splits the free space into
+     two equal breathing gaps — an intentional editorial layout, not a
+     cluster floating in the center with a void beneath it. */
+  .hero-section {
+    justify-content: stretch;
+    padding: 116px 24px 44px;
+  }
+
+  .hero-grid {
+    display: flex;
+    flex: 1;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-width: none;
+  }
+
+  .hero-index {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgba(242, 240, 248, 0.14);
+  }
+
+  .hero-index li {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(242, 240, 248, 0.14);
+  }
+
+  .hero-index-num {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--accent-soft);
+  }
+
+  .hero-index-label {
+    font-family: var(--font-display);
+    font-size: 1.04rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--hero-text);
+  }
+
+  .hero-actions {
+    margin-top: auto;
+  }
+
   .footer-main {
     flex-direction: column;
     align-items: flex-start;
@@ -1707,7 +1774,7 @@
     align-items: stretch;
     width: 100%;
     gap: 18px;
-    margin-top: 28px;
+    margin-top: auto;
   }
 
   .hero-actions .primary-button {

@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { DUR_REVEAL, EASE_OUT } from '../lib/motion'
+import { portfolioCards } from '../data/content'
 import { HeroMark } from './HeroMark'
 import { MaskReveal } from './MaskReveal'
 
@@ -30,6 +31,18 @@ export function Hero() {
           </h1>
 
           <p>Technical expertise, global partnerships, trusted delivery.</p>
+
+          {/* Mobile-only editorial index — fills the vertical space the hero
+              mark occupies on desktop with the three practice areas, so the
+              phone hero reads as a composed three-zone layout, not a void. */}
+          <ul className="hero-index" aria-hidden="true">
+            {portfolioCards.map((card, i) => (
+              <li key={card.type}>
+                <span className="hero-index-num">{String(i + 1).padStart(2, '0')}</span>
+                <span className="hero-index-label">{card.title}</span>
+              </li>
+            ))}
+          </ul>
 
           <div className="hero-actions">
             <Link className="primary-button" to="/#contact">
