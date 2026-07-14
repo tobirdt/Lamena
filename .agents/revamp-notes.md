@@ -16,16 +16,23 @@ Kanzlei-/Geschäftsbericht-Anmutung, Autorität durch Zurückhaltung.
   Venn, keine Fake-Engineering-Zeichnungen (Maßpfeile, „R 72 / PERIMETER / ZONE
   A", Registermarken) mehr — die galten als KI-Tell (Deko, die Bedeutung
   vortäuscht). Stattdessen bedeutungsvolle Apex-Kompositionen:
-  HeroMark = verschachteltes Apex-Monogramm (purpurner Kern) · Security =
-  gestaffelte Apexe (geschichteter Schutz) · Communication = verbundene
-  Apex-Peaks mit Ridge/Knoten (Netzwerk) · Finance = aufsteigende Apexe mit
-  Wachstums-Trajektorie zum purpurnen Peak. Statisch, keine Callouts, kein Mono.
+  HeroMark = verschachteltes (konzentrisches) Apex-Monogramm mit Baseline
+  (purpurner Kern) · Security = gestapelte Chevron-Barrieren + purpurner Kern-
+  Apex (Defense-in-Depth — BEWUSST anders komponiert als die Hero-Mark, damit
+  die Signatur einzigartig bleibt) · Communication = verbundene Apex-Peaks mit
+  Ridge/Knoten (Netzwerk) · Finance = aufsteigende Apexe mit Wachstums-
+  Trajektorie zum purpurnen Peak. Portfolio-Visuals OHNE Baseline-Achse (die
+  wirkte chart-artig). Statisch, keine Callouts, kein Mono.
   Helfer `apex(h,w)`/`apex([x,h])` je Datei. Neue Grafiken IMMER aus dem Apex
   bauen, nicht wieder dekorativ „technisch" werden.
 - **Motion:** Mask-Reveal nur noch am Hero-H1; Sektionen nur schlichtes Fade-up.
-- **Scroll:** Lenis Smooth Scroll + Sektionen mit `min-height:100svh` (Vollbild-
-  Gefühl). KEIN CSS `scroll-snap` — natives Snap kämpft gegen Lenis' rAF-Scroll
-  und ruckelt (v.a. Trackpad). Nicht wieder hinzufügen.
+- **Scroll:** NATIVES Scrollen (Lenis/Smooth-Scroll-JS im Juli-2026-QA entfernt —
+  fühlte sich laggy/schwimmend an). `scroll-behavior: smooth` nur noch für
+  Anker-Sprünge; `@media (prefers-reduced-motion)` → `auto`. Sektionen behalten
+  `min-height:100svh` (Vollbild-Gefühl) rein über Sizing. KEIN CSS `scroll-snap`,
+  KEIN JS-Inertia-Layer — beides nicht wieder hinzufügen. Sektionen werden durch
+  full-bleed Haarlinien-Trenner (`.<section>::before`, `100vw`, von
+  `.site-shell{overflow-x:clip}` gefasst) abgesetzt.
 - Frühere Richtung „Precision Console" ist bewusst abgelöst — Mono-überall,
   Purpur-Glow, Konsolen-Affekt gelten jetzt als KI-Tells, nicht als Signatur.
 

@@ -513,6 +513,39 @@
   scroll-margin-top: var(--header-offset);
 }
 
+/* ─── Chapter separators ─────────────────────────────────
+   A quiet full-bleed hairline opens each section so adjacent
+   same-tone chapters read as distinct. `.site-shell { overflow-x:
+   clip }` contains the 100vw; dark chapters get a light line. */
+.about-section,
+.services-section,
+.section.portfolio-section,
+.operating-section,
+.contact-section {
+  position: relative;
+}
+
+.about-section::before,
+.services-section::before,
+.section.portfolio-section::before,
+.operating-section::before,
+.contact-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100vw;
+  height: 1px;
+  transform: translateX(-50%);
+  background: var(--line);
+  pointer-events: none;
+}
+
+/* Dark chapter — light hairline instead */
+.section.portfolio-section::before {
+  background: rgba(242, 240, 248, 0.12);
+}
+
 .section-heading h2,
 .legal-panel h1,
 .hero-copy h1 {
@@ -694,7 +727,7 @@
   color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.04em;
 }
 
@@ -806,7 +839,7 @@
   color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.04em;
 }
 
@@ -885,10 +918,11 @@
 
 .pf-case-index {
   display: block;
-  color: rgba(167, 139, 203, 0.75);
+  /* full-opacity accent-soft — ~6.6:1 on the dark chapter (AA) */
+  color: var(--accent-soft);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.14em;
 }
 
@@ -962,64 +996,55 @@
   align-items: start;
 }
 
+/* Flat numbered index — same language as the expertise list, no
+   circular-badge/connector "process stepper" chrome */
 .operating-steps {
-  position: relative;
   display: grid;
-  gap: 4px;
-}
-
-/* Vertical connector line */
-.operating-steps::before {
-  content: "";
-  position: absolute;
-  top: 40px;
-  left: 38px;
-  bottom: 40px;
-  width: 1px;
-  background: linear-gradient(
-    180deg,
-    var(--line-strong) 0%,
-    rgba(111, 77, 146, 0.08) 100%
-  );
-  pointer-events: none;
+  align-content: start;
+  /* The fullscreen breakpoint turns .operating-section into a flex column
+     with align-items:start (inherited from its grid rule), which would
+     shrink this to min-content and collapse the 1fr card column — pin a
+     readable width so the body text wraps normally in both layouts */
+  align-self: stretch;
+  width: 100%;
+  max-width: 760px;
 }
 
 .operating-card {
-  position: relative;
-  padding: 24px 24px 24px 76px;
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
 }
 
-.operating-card span {
-  position: absolute;
-  top: 22px;
-  left: 20px;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--line-strong);
-  color: var(--accent-deep);
+.operating-card:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.operating-card > span {
+  padding-top: 4px;
+  color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.74rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.04em;
-  background: var(--surface);
 }
 
 .operating-card h3 {
   margin: 0;
   color: var(--ink);
-  font-size: 1.14rem;
-  font-weight: 680;
+  font-size: 1.06rem;
+  font-weight: 660;
   letter-spacing: -0.012em;
 }
 
 .operating-card p {
-  margin: 8px 0 0;
+  margin: 7px 0 0;
   color: var(--muted);
-  font-size: 0.94rem;
-  line-height: 1.66;
+  font-size: 0.92rem;
+  line-height: 1.64;
 }
 
 /* ════════════════════════════════════════════════════════
@@ -1085,7 +1110,9 @@
 
 .link-row {
   align-items: center;
-  padding-top: 16px;
+  min-height: 44px;
+  padding-top: 15px;
+  padding-bottom: 3px;
   border-top: 1px solid var(--line);
   color: var(--muted-strong);
   border-radius: 6px;
@@ -1193,7 +1220,7 @@
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -1330,6 +1357,11 @@
   margin: 0;
   color: var(--muted);
   font-size: 0.91rem;
+}
+
+/* Persistent (always-rendered) live region collapses when empty */
+.form-status:empty {
+  min-height: 0;
 }
 
 .form-status.sent {
@@ -1527,11 +1559,11 @@
 
 /* ════════════════════════════════════════════════════════
    FULLSCREEN SECTIONS — each main section fills one viewport and
-   centres its content. NO CSS scroll-snap: native snap fights Lenis'
-   rAF-driven smooth scroll and produces stutter, so the fullscreen
-   feel is kept purely through sizing while Lenis owns the motion.
-   Only on desktop-height viewports (≥ 700px tall, ≥ 769px wide);
-   phones/short screens and the long legal pages flow normally.
+   centres its content. NO CSS scroll-snap and no JS smooth-scroll:
+   the wheel/trackpad is plain native scrolling; the fullscreen feel is
+   kept purely through sizing. Only on desktop-height viewports
+   (≥ 700px tall, ≥ 769px wide); phones/short screens and the long legal
+   pages flow normally.
    ════════════════════════════════════════════════════════ */
 @media (min-width: 769px) and (min-height: 700px) {
   .hero-section,
@@ -1619,6 +1651,18 @@
   .section,
   .operating-section {
     padding: 88px 24px;
+  }
+
+  /* Portfolio stage isn't a .section — match the mobile section rhythm */
+  .portfolio-stage {
+    padding: 88px 24px;
+  }
+
+  /* Services is full-bleed; the mobile .section rule re-adds side padding,
+     which would double-inset its already-inset inner content */
+  .services-section {
+    padding-right: 0;
+    padding-left: 0;
   }
 }
 
@@ -1773,12 +1817,26 @@
   }
 
   .hero-text-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    min-height: 44px;
     text-align: center;
   }
 
   .section,
   .operating-section {
     padding: 72px 20px;
+  }
+
+  .portfolio-stage {
+    padding: 72px 20px;
+  }
+
+  .services-section {
+    padding-right: 0;
+    padding-left: 0;
   }
 
   .contact-section {
@@ -1851,22 +1909,6 @@
   /* Portfolio */
   .portfolio-visual {
     height: 190px;
-  }
-
-  /* Operating model */
-  .operating-card {
-    padding: 20px 18px 20px 64px;
-  }
-
-  .operating-card span {
-    left: 16px;
-    top: 20px;
-    width: 32px;
-    height: 32px;
-  }
-
-  .operating-steps::before {
-    left: 32px;
   }
 
   /* Contact */

@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ScrollManager } from './components/ScrollManager'
-import { SmoothScroll } from './components/SmoothScroll'
 import { privacySections, termsSections } from './data/legal'
 import { HomePage } from './pages/HomePage'
 import { LegalPage } from './pages/LegalPage'
@@ -10,7 +9,6 @@ import './App.css'
 function App() {
   return (
     <BrowserRouter>
-      <SmoothScroll />
       <ScrollManager />
       <Routes>
         <Route path="/" element={<HomePage />} />

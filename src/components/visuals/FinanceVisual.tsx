@@ -32,12 +32,6 @@ export function FinanceVisual() {
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
     >
-      {/* Baseline */}
-      <line
-        x1="46" y1={BASE} x2="344" y2={BASE}
-        stroke="rgba(242, 240, 248,0.14)" strokeWidth="1"
-      />
-
       {/* Growth trajectory through the apex tips */}
       <path
         d={trajectory}

@@ -1,5 +1,5 @@
 import { AlertCircle, ArrowLeft, CheckCircle2, Send } from 'lucide-react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { EASE_OUT } from '../lib/motion'
@@ -144,22 +144,12 @@ export function ContactForm() {
         <Send aria-hidden="true" />
       </button>
 
-      <AnimatePresence mode="wait">
-        {message && (
-          <motion.p
-            key={status}
-            className={`form-status ${status}`}
-            aria-live="polite"
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.2, ease: EASE_OUT }}
-          >
-            {status === 'error' && <AlertCircle aria-hidden="true" />}
-            {message}
-          </motion.p>
-        )}
-      </AnimatePresence>
+      {/* Persistent live region — always in the DOM so screen readers
+          reliably announce the error text when it is swapped in */}
+      <p className={`form-status ${status}`} aria-live="polite" role="status">
+        {message && status === 'error' && <AlertCircle aria-hidden="true" />}
+        {message}
+      </p>
     </form>
   )
 }

@@ -10,8 +10,11 @@ import { ServicesSection } from '../components/sections/ServicesSection'
 export function HomePage() {
   return (
     <div className="site-shell">
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
       <Header />
-      <main>
+      <main id="main">
         <Hero />
         <AboutSection />
         <ServicesSection />

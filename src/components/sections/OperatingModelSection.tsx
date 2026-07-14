@@ -13,9 +13,11 @@ export function OperatingModelSection() {
       <Reveal className="operating-steps" delay={0.08}>
         {operatingSteps.map((step, index) => (
           <div className="operating-card" key={step.title}>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <h3>{step.title}</h3>
-            <p>{step.body}</p>
+            <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </div>
           </div>
         ))}
       </Reveal>

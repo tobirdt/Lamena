@@ -75,15 +75,16 @@ html {
   -webkit-text-size-adjust: 100%;
   /* Reserve scrollbar space on Windows (no layout shift) */
   scrollbar-gutter: stable;
-  /* Native smooth-scroll fallback for the moment before Lenis mounts
-     (and for reduced-motion / no-JS). Lenis stamps a `.lenis` class on
-     <html> once running — its own rAF interpolation replaces this, so
-     the native easing doesn't fight Lenis's. */
+  /* Plain native scrolling — the wheel/trackpad is fully browser-driven and
+     snappy (no JS inertia layer). `smooth` only animates in-page anchor jumps
+     from the nav; reduced-motion overrides it to instant below. */
   scroll-behavior: smooth;
 }
 
-html.lenis {
-  scroll-behavior: auto;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 *,
@@ -169,6 +170,26 @@ video {
 .mask-reveal-inner {
   display: block;
   will-change: transform;
+}
+
+/* ─── Skip to content (keyboard nav) ─────────────────── */
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transform: translateY(-160%);
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 /* ─── Focus visible (keyboard nav) ──────────────────── */

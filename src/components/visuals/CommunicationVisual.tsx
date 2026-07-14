@@ -34,12 +34,6 @@ export function CommunicationVisual() {
       preserveAspectRatio="xMidYMid slice"
       aria-hidden="true"
     >
-      {/* Baseline */}
-      <line
-        x1="34" y1={BASE} x2="366" y2={BASE}
-        stroke="rgba(242, 240, 248,0.14)" strokeWidth="1"
-      />
-
       {/* Connecting ridge — the network linking every peak */}
       <path
         d={ridge}
